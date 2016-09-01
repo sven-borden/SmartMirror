@@ -257,175 +257,92 @@ namespace SmartMirror
 		}
 
 		/// <summary>
-
 		/// Handle events fired when a result is generated. This may include a garbage rule that fires when general room noise
-
 		/// or side-talk is captured (this will have a confidence of Rejected typically, but may occasionally match a rule with
-
 		/// low confidence).
-
 		/// </summary>
-
 		/// <param name="sender">The Recognition session that generated this result</param>
-
 		/// <param name="args">Details about the recognized speech</param>
-
 		private async void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
-
 		{
-
 			// The garbage rule will not have a tag associated with it, the other rules will return a string matching the tag provided
-
 			// when generating the grammar.
-
 			string tag = "unknown";
-
 			if (args.Result.Constraint != null)
-
 			{
-
 				tag = args.Result.Constraint.Tag;
-
 			}
-
-
 
 			// Developers may decide to use per-phrase confidence levels in order to tune the behavior of their 
-
 			// grammar based on testing.
-
 			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||
-
 			args.Result.Confidence == SpeechRecognitionConfidence.High)
-
 			{
-
 				await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-
 				{
-
 					heardYouSayTextBlock.Visibility = Visibility.Visible;
-
 					resultTextBlock.Visibility = Visibility.Visible;
-
 					resultTextBlock.Text = string.Format("Heard: '{0}', (Tag: '{1}', Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-
 				});
-
 			}
-
 			else
-
 			{
-
 				// In some scenarios, a developer may choose to ignore giving the user feedback in this case, if speech
-
 				// is not the primary input mechanism for the application.
-
 				await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-
 				{
-
 					heardYouSayTextBlock.Visibility = Visibility.Collapsed;
-
-					resultTextBlock.Visibility = Visibility.Visible;
-
+				resultTextBlock.Visibility = Visibility.Visible;
 					resultTextBlock.Text = string.Format("Sorry, I didn't catch that. (Heard: '{0}', Tag: {1}, Confidence: {2})", args.Result.Text, tag, args.Result.Confidence.ToString());
-
 				});
-
 			}
-
 		}
 
 		private void StartRecognition()
 		{
 			if (isListening == false)
-
 			{
-
 				// The recognizer can only start listening in a continuous fashion if the recognizer is currently idle.
-
 				// This prevents an exception from occurring.
 
 				if (speechRecognizer.State == SpeechRecognizerState.Idle)
-
 				{
 
 					try
-
 					{
-
 						await speechRecognizer.ContinuousRecognitionSession.StartAsync();
-
 						ContinuousRecoButtonText.Text = " Stop Continuous Recognition";
-
 						cbLanguageSelection.IsEnabled = false;
-
 						isListening = true;
-
 					}
-
 					catch (Exception ex)
-
 					{
-
 						var messageDialog = new Windows.UI.Popups.MessageDialog(ex.Message, "Exception");
-
 						await messageDialog.ShowAsync();
-
 					}
-
 				}
-
 			}
-
 			else
-
 			{
-
 				isListening = false;
-
 				ContinuousRecoButtonText.Text = " Continuous Recognition";
-
 				cbLanguageSelection.IsEnabled = true;
 
-
-
 				heardYouSayTextBlock.Visibility = Visibility.Collapsed;
-
-				resultTextBlock.Visibility = Visibility.Collapsed;
-
+			resultTextBlock.Visibility = Visibility.Collapsed;
 				if (speechRecognizer.State != SpeechRecognizerState.Idle)
-
 				{
-
 					try
-
 					{
-
 						// Cancelling recognition prevents any currently recognized speech from
-
 						// generating a ResultGenerated event. StopAsync() will allow the final session to 
-
 						// complete.
-
 						await speechRecognizer.ContinuousRecognitionSession.CancelAsync();
-
 					}
-
 					catch (Exception ex)
-
 					{
-
-						var messageDialog = new Windows.UI.Popups.MessageDialog(ex.Message, "Exception");
-
-						await messageDialog.ShowAsync();
-
 					}
-
 				}
-
 			}
 		}
 
