@@ -20,7 +20,7 @@
 
 		<TextBlock
 			x:Name="MainBox"
-			Text="Hi, Sven"
+			Text="Hi there"
 			Foreground="WhiteSmoke"
 			Grid.Row="0"
 			Grid.RowSpan="2"
@@ -31,5 +31,146 @@
 			FontSize="100"
 			/>
 
+		<StackPanel 
+			Grid.Row="0"
+			Grid.RowSpan="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Margin="20"
+			>
+			<TextBlock 
+				Text="Weather" 
+				Foreground="White" 
+				FontSize="50" 
+				FontWeight="SemiBold"
+				Margin="10"
+				/>
+			<ScrollViewer>
+				<ListView
+				x:Name="WheatherList"
+				ItemsSource="{x:Bind WeatherList}"
+				>
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<StackPanel 
+									Orientation="Horizontal"
+									Margin="10"
+									>
+									<Image 
+										Height="50" 
+										Width="50" 
+										Source="{Binding Icon}" 
+										Margin="10"
+										/>
+									<TextBlock 
+										Text="{Binding Day}" 
+										Foreground="WhiteSmoke" 
+										Margin="10"
+										/>
+									<TextBlock 
+										Text="{Binding Temp}" 
+										Foreground="WhiteSmoke" 
+										Margin="10"
+									/>
+								</StackPanel>
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</ScrollViewer>
+		</StackPanel>
+
+		<StackPanel
+			Grid.Row="1"
+			Grid.RowSpan="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Margin="20"
+			>
+			<TextBlock
+				Text="Calendar"
+				Foreground="White"
+				FontSize="50"
+				FontWeight="SemiBold"
+				Margin="10"
+				/>
+			<GridView
+				x:Name="CalendarGrid"
+				ItemsSource="{x:Bind WeatherList}"
+				>
+				<GridView.ItemsPanel>
+					<ItemsPanelTemplate>
+						<ItemsWrapGrid 
+							Orientation="Horizontal" 
+							MaximumRowsOrColumns="7"
+							/>
+					</ItemsPanelTemplate>
+				</GridView.ItemsPanel>
+
+				<GridView.ItemTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock 
+								Foreground="White"
+								Text="{Binding Number}"
+								FontSize="30"
+								TextAlignment="Center"
+								Margin="10"
+								/>
+							<TextBlock
+								Foreground="White"
+								Text="{Binding EventName}"
+								Margin="5"
+								TextAlignment="Center"
+								/>
+						</StackPanel>
+					</DataTemplate>
+				</GridView.ItemTemplate>
+			</GridView>
+		</StackPanel>
+
+		<StackPanel
+			Grid.Row="0"
+			Grid.RowSpan="1"
+			Grid.Column="2"
+			Grid.ColumnSpan="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Margin="20"
+			>
+			<TextBlock
+				Text="News"
+				Foreground="White"
+				FontSize="50"
+				Margin="10"
+				FontWeight="SemiBold"
+				TextAlignment="Right"
+				/>
+		</StackPanel>
+
+		<StackPanel
+			Grid.Row="1"
+			Grid.RowSpan="1"
+			Grid.Column="2"
+			Grid.ColumnSpan="1"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			Margin="20"
+			>
+			<TextBlock
+				x:Name="TimeBox"
+				Text="17:30"
+				Foreground="White"
+				FontSize="70"
+				Margin="20"
+				FontWeight="SemiBold"
+				TextAlignment="Right"
+				/>
+		</StackPanel>
 	</Grid>
 </Page>
