@@ -1,7 +1,9 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "HockeySDK.UWP": "4.1.4",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Microsoft.ProjectOxford.Emotion": "1.0.326",
+    "Microsoft.Toolkit.Uwp.Services": "1.0.0",
     "WeatherNet.uwp": "2.1.2"
   },
   "frameworks": {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.HockeyApp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace SmartMirror
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
+			Microsoft.HockeyApp.HockeyClient.Current.Configure("edfa827c3983415ea318f0ef2da26eb7");
+			this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
 
