@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartMirror.Audio;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -47,6 +48,14 @@ namespace SmartMirror
 				//get time and update it
 			};
 			time.Start();
+			Speech speech = new Speech();
+			DispatcherTimer speechTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
+			speechTimer.Tick += (tick, args) =>
+			{
+				if (speech.isListening && speech.newWord)
+					MainBox.Text = speech.lastPhrase;
+			};
+			speechTimer.Start();
 		}
 
 		private void GetWeather()

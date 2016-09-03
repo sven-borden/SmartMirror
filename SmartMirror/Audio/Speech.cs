@@ -9,15 +9,18 @@ using Windows.UI.Core;
 
 namespace SmartMirror.Audio
 {
-	class SpeechRecognition
+	public class Speech
 	{
 		private SpeechRecognizer _speechRecognizer;
 		private CoreDispatcher _dispatcher;
 		public bool isListening = false;
+		public bool newWord { get; set; }
+		public string lastPhrase { get; set; }
 
-		public SpeechRecognition()
+		public Speech()
 		{
 			isListening = false;
+			newWord = false;
 			Setup();
 		}
 
@@ -50,6 +53,7 @@ namespace SmartMirror.Audio
 			await _speechRecognizer.CompileConstraintsAsync();
 			_speechRecognizer.ContinuousRecognitionSession.Completed += ContinuousRecognitionSession_Completed;
 			_speechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSession_ResultGenerated;
+			isListening = true;
 		}
 
 		private async void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
@@ -58,20 +62,24 @@ namespace SmartMirror.Audio
 				await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
 		}
 
-		private async void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
-		{ 
+		private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
+		{
 			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium || args.Result.Confidence == SpeechRecognitionConfidence.High)
-				await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-				{
+			{
+				newWord = true;
+				lastPhrase = args.Result.Text;
+				//await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+				//{
 
-					await ShowAnimal(args.Result.Text);
+				//	await ShowResult(args.Result.Text);
 
-				});
+				//});
+			}
 		}
 
 		private static string[] GetPossibilities()
 		{
-			return new string[] { "a", "b" };
+			return new string[] { "chocolat", "lumière" };
 		}
 	}
 }
