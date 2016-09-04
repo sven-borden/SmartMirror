@@ -98,6 +98,7 @@
     <Compile Include="Audio\AudioCapturePermissions.cs" />
     <Compile Include="Audio\Speech.cs" />
     <Compile Include="Class\Calendar.cs" />
+    <Compile Include="InternetAccess\Internet.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -120,6 +121,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="WeatherAssets\sun.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

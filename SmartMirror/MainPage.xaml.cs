@@ -10,6 +10,7 @@ using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
+using Windows.Globalization.DateTimeFormatting;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -29,25 +30,54 @@ namespace SmartMirror
     /// </summary>
     public sealed partial class MainPage : Page
     {
-		ObservableCollection<Weather> WeatherList;
+		ObservableCollection<Weather> TodayWeather;
+		ObservableCollection<Weather> TomorrowWeather;
 		ObservableCollection<Calendar> CalendarList;
 		ObservableCollection<News> NewsList;
 
 		public MainPage()
         {
             this.InitializeComponent();
-			Initialisation();
+			Time();
+
+			DispatcherTimer internetTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0) };
+			internetTimer.Tick += (tick, args) =>
+			{
+				internetTimer.Interval = new TimeSpan(0, 0, 30);
+				if (InternetAccess.Internet.isConnected())
+				{
+					internetTimer.Stop();
+					MainBox.Text = "Hi, There !";
+					Initialisation();
+				}
+				else
+					MainBox.Text = "No internet access !";
+			};
+			internetTimer.Start();
         }
+
+		private void Time()
+		{
+			DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0) };
+			timer.Tick += (tick, args) =>
+			{
+				timer.Interval = new TimeSpan(0, 0, 0, 1);
+				//get time and update it
+				DateTime date = DateTime.Now;
+				var time = new DateTimeFormatter("shorttime");
+				string t = date.Hour.ToString() + ":";
+				t += date.Minute + ":";
+				t += date.Second;
+
+				TimeBox.Text = time.Format(date);
+			};
+			timer.Start();
+		}
 
 		private void Initialisation()
 		{
 			GetWeather();
-			DispatcherTimer time = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 20) };
-			time.Tick += (tick, args) =>
-			{
-				//get time and update it
-			};
-			time.Start();
+			
 			Speech speech = new Speech();
 			DispatcherTimer speechTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
 			speechTimer.Tick += (tick, args) =>
@@ -58,9 +88,12 @@ namespace SmartMirror
 			speechTimer.Start();
 		}
 
-		private void GetWeather()
+		private async void GetWeather()
 		{
-			
+			if (TodayWeather == null)
+				TodayWeather = new ObservableCollection<Weather>();
+			TodayWeather.Add(await Weather.GetCurrentWeather("St-Prex", "Switzerland", "fr", "metric"));
+			this.Bindings.Update();
 		}
 	}
 }

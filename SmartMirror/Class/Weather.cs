@@ -43,6 +43,12 @@ namespace SmartMirror
 			var result = await CurrentWeather.GetByCityNameAsync(city, country, language, type);
 			if (!result.Success)
 				return null;
+			if (result.Item.TempMin.ToString().Contains(".")) 
+				result.Item.TempMin = Convert.ToDouble(result.Item.TempMin.ToString().Split('.')[0]);
+			if (result.Item.TempMax.ToString().Contains("."))
+				result.Item.TempMax = Convert.ToDouble(result.Item.TempMax.ToString().Split('.')[0]);
+			if (result.Item.Temp.ToString().Contains("."))
+				result.Item.Temp = Convert.ToDouble(result.Item.Temp.ToString().Split('.')[0]);
 			Weather t = new Weather()
 			{
 				Day = result.Item.Date,
