@@ -77,6 +77,7 @@ namespace SmartMirror.Audio
 		/// <summary>
 		/// Speak literaly with grammar
 		/// </summary>
+		/// <remarks>StorageFile ssmlFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///speech.xml"))</remarks>
 		/// <param name="ssmlFile">SSML File location</param>
 		/// <param name="mediaElement">Where to speak</param>
 		/// <returns></returns>

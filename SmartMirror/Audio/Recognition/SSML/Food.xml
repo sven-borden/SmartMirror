@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grammar
+  version="1.0"
+  mode="voice"
+  xml:lang="en-US"
+  tag-format="semantics/1.0"
+  xmlns="http://www.w3.org/2001/06/grammar"
+  root="order">
+   
+    <rule id="order">
+        <item repeat="0-1">S'il te plait</item>
+        <item repeat="0-1">
+          <one-of>
+            <item>J'aimerais</item>
+            <item>Je veux</item>
+            <item>J'ai besoin</item>
+          </one-of>
+        </item>        
+        <item repeat="0-1">
+            <one-of>
+                <item>commander</item>
+                <item>avoir</item>
+                <item>acheter</item>
+      </one-of>
+          
+    </item>
+        <item repeat="0-1">un</item>
+        <ruleref uri="#foodItem"/>
+        <tag>out.foodType=rules.latest();</tag>
+        <ruleref uri="#drinkItem"/>
+        <tag>out.drinkType=rules.latest();</tag>
+        <item repeat="0-1">please</item>
+      
+  </rule>
+    <rule id="drinkItem">
+        <item repeat="0-1">
+            <one-of>
+                <item>et</item>
+                <item>avec</item>
+              
+      </one-of>
+            un
+            <ruleref uri="#drinkChoice"/>
+            <tag>out=rules.latest();</tag>
+    </item>
+      
+  </rule>
+    <rule id="drinkChoice">
+        <one-of>
+            <item>coca-cola</item>
+            <item>limonade</item>
+            <item>jus d'orange</item>
+    </one-of>
+      
+  </rule>
+    <rule id="foodItem">
+        <one-of>
+            <item>
+                <tag>out="pizza";</tag>
+                <one-of>
+                    <item>pizza</item>
+                    <item>tarte</item>
+                    <item>tranche</item>
+        </one-of>
+              
+      </item>
+            <item>
+                <tag>out="burger";</tag>
+                <one-of>
+                    <item>burger</item>
+                    <item>hamburger</item>
+                    <item>beef burger</item>
+                    <item>cheeseburger</item>
+        </one-of>
+              
+      </item>
+          
+    </one-of>
+      
+  </rule>
+</grammar>
