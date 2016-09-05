@@ -78,7 +78,7 @@ namespace SmartMirror
 		{
 			GetWeather();
 			
-			Speech speech = new Speech();
+			SpeechRecognition speech = new SpeechRecognition();
 			DispatcherTimer speechTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
 			speechTimer.Tick += (tick, args) =>
 			{

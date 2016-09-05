@@ -96,7 +96,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Audio\AudioCapturePermissions.cs" />
-    <Compile Include="Audio\Speech.cs" />
+    <Compile Include="Audio\SpeechExpression.cs" />
+    <Compile Include="Audio\SpeechRecognition.cs" />
     <Compile Include="Class\Calendar.cs" />
     <Compile Include="InternetAccess\Internet.cs" />
     <Compile Include="MainPage.xaml.cs">

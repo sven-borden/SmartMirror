@@ -19,6 +19,8 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 
+		<MediaElement x:Name="uiMediaElement" />
+
 		<TextBlock
 			x:Name="MainBox"
 			Text="Hi there"

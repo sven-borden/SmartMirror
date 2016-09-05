@@ -11,17 +11,50 @@ namespace SmartMirror
 {
 	class Weather
 	{
+		/// <summary>
+		/// Day concerning the Weather
+		/// </summary>
 		public DateTime Day { get; set; }
+
+		/// <summary>
+		/// Actual Temperature
+		/// </summary>
 		public double Temp { get; set; }
+
+		/// <summary>
+		/// Minimum Temperature of the Day
+		/// </summary>
 		public double TempMin { get; set; }
+
+		/// <summary>
+		/// Maximum Temperature of the Day
+		/// </summary>
 		public double TempMax { get; set; }
+
+		/// <summary>
+		/// Actual Humidity
+		/// </summary>
 		public double Humidity { get; set; }
+
+		/// <summary>
+		/// Description of the Actual weather
+		/// </summary>
 		public string Description { get; set; }
+
+		/// <summary>
+		/// Actual Windspeed
+		/// </summary>
 		public double WindSpeed { get; set; }
+
+		/// <summary>
+		/// Icon
+		/// </summary>
 		public string Icon { get; set; }
 
 		
-
+		/// <summary>
+		/// General constructor
+		/// </summary>
 		public Weather()
 		{
 
@@ -63,6 +96,14 @@ namespace SmartMirror
 			return t;
 		}
 
+		/// <summary>
+		/// Get five day forecast
+		/// </summary>
+		/// <param name="city">St-Prex</param>
+		/// <param name="country">Switzerland</param>
+		/// <param name="language">"fr"</param>
+		/// <param name="type">metric</param>
+		/// <returns></returns>
 		public async static Task<List<Weather>> GetFiveDayForecast(string city, string country, string language, string type)
 		{
 			ClientSettings.ApiUrl = "http://api.openweathermap.org/data/2.5";
