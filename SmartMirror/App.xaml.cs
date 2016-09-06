@@ -1,4 +1,5 @@
 ﻿using Microsoft.HockeyApp;
+using SmartMirror.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -69,15 +71,23 @@ namespace SmartMirror
 
             if (e.PrelaunchActivated == false)
             {
-                if (rootFrame.Content == null)
-                {
-                    // Quand la pile de navigation n'est pas restaurée, accédez à la première page,
-                    // puis configurez la nouvelle page en transmettant les informations requises en tant que
-                    // paramètre
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
-                // Vérifiez que la fenêtre actuelle est active
-                Window.Current.Activate();
+				if (rootFrame.Content == null)
+				{
+					IPropertySet roamingProperties = ApplicationData.Current.LocalSettings.Values;
+					if (roamingProperties.ContainsKey("NotFirstLaunch"))
+					{
+						// The normal case
+						rootFrame.Navigate(typeof(MainPage), e.Arguments);
+					}
+					else
+					{
+						// The first-time case
+						rootFrame.Navigate(typeof(Startup), e.Arguments);
+						roamingProperties["NotFirstLaunch"] = bool.TrueString; // Doesn't really matter what
+					}
+				}
+				// Vérifiez que la fenêtre actuelle est active
+				Window.Current.Activate();
             }
         }
 
