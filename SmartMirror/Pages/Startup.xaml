@@ -26,22 +26,23 @@
 			<Setter Property="FontSize" Value="50" />
 			<Setter Property="FontWeight" Value="Light"/>
 			<Setter Property="TextWrapping" Value="Wrap" />
+			<Setter Property="TextAlignment" Value="Justify" />
 		</Style>
 		<Style x:Key="TextBoxProgressionTitle" TargetType="TextBlock">
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
-			<Setter Property="Margin" Value="10" />
+			<Setter Property="Margin" Value="5" />
 			<Setter Property="VerticalAlignment" Value= "Center" />
 			<Setter Property="FontFamily" Value="Segoe UI" />
-			<Setter Property="FontSize" Value="50" />
+			<Setter Property="FontSize" Value="18" />
 			<Setter Property="FontWeight" Value="Light"/>
 			<Setter Property="TextWrapping" Value="Wrap" />
 		</Style>
 		<Style x:Key="TextBoxProgressionStd" TargetType="TextBlock">
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
-			<Setter Property="Margin" Value="10" />
+			<Setter Property="Margin" Value="3" />
 			<Setter Property="VerticalAlignment" Value= "Center" />
 			<Setter Property="FontFamily" Value="Segoe UI" />
-			<Setter Property="FontSize" Value="30" />
+			<Setter Property="FontSize" Value="13" />
 			<Setter Property="FontWeight" Value="Light"/>
 			<Setter Property="TextWrapping" Value="Wrap" />
 		</Style>
@@ -55,7 +56,7 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
-			<Border BorderBrush="White" BorderThickness="5">
+			<Border BorderBrush="White" BorderThickness="1">
 				<StackPanel>
 					<TextBlock x:Uid="SetupHi" Text="" Style="{StaticResource TextBoxTitle}" />
 					<StackPanel>
@@ -65,15 +66,24 @@
 			</Border>
 		</StackPanel>
 
-		<ListView Grid.Column="0" ItemsSource="{x:Bind SetupProgression}">
+		<ListView Grid.Column="0" ItemsSource="{x:Bind SetupProgression}" >
+			<ListView.Background>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<LinearGradientBrush.RelativeTransform>
+						<CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="-90"/>
+					</LinearGradientBrush.RelativeTransform>
+					<GradientStop Color="Black" Offset="1"/>
+					<GradientStop Color="#FF747474"/>
+				</LinearGradientBrush>
+			</ListView.Background>
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Margin="20">
+					<StackPanel Margin="7">
 						<TextBlock 
 							Style="{StaticResource TextBoxProgressionTitle}" Foreground="{Binding Color}" Text="{Binding Title}"/>
 						<TextBlock 
 							Style="{StaticResource TextBoxProgressionStd}" Foreground="{Binding Color}" Text="{Binding Description}" />
-						<Border BorderThickness="2" Visibility="{Binding isSelected}" BorderBrush="White" />
+						<Border BorderThickness="0.5" Visibility="{Binding isSelected}" BorderBrush="White" />
 					</StackPanel>
 				</DataTemplate>
 			</ListView.ItemTemplate>
