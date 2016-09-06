@@ -33,7 +33,11 @@ namespace SmartMirror.Pages
 
 		private void SetProgression()
 		{
-			SetupProgression = new ObservableCollection<SetupItem>();
+			if (SetupProgression == null)
+				SetupProgression = new ObservableCollection<SetupItem>();
+			else
+				SetupProgression.Clear();
+
 		}
 	}
 }

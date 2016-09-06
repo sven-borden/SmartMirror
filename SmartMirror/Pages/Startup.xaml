@@ -57,9 +57,9 @@
 		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
 			<Border BorderBrush="White" BorderThickness="5">
 				<StackPanel>
-					<TextBlock Text="Hi There" Style="{StaticResource TextBoxTitle}" />
+					<TextBlock x:Uid="SetupHi" Text="" Style="{StaticResource TextBoxTitle}" />
 					<StackPanel>
-						<TextBlock Style="{StaticResource TextBoxStd}" Text="Please complete the following setup process in order to have a great user experience" />
+						<TextBlock Style="{StaticResource TextBoxStd}" x:Uid="SetupIntroText" Text="" />
 					</StackPanel>
 				</StackPanel>
 			</Border>

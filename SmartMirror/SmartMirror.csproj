@@ -89,6 +89,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <PRIResource Include="languages\fr-CH\Resources.resw" />
+    <PRIResource Include="languages\en-US\Resources.resw" />
+    <PRIResource Include="languages\de-DE\Resources.resw" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
