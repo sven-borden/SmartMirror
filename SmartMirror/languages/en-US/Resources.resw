@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LangChoose" xml:space="preserve">
+    <value>French, English, German</value>
+  </data>
+  <data name="LangDescription" xml:space="preserve">
+    <value>Please choose one of the following language</value>
+  </data>
+  <data name="LangSuggestion" xml:space="preserve">
+    <value>one, two, three</value>
+  </data>
+  <data name="LangTitle" xml:space="preserve">
+    <value>Languages</value>
+  </data>
   <data name="ProgIntroD" xml:space="preserve">
     <value>Get started</value>
   </data>
@@ -135,11 +147,29 @@
   <data name="ProgVoiceT" xml:space="preserve">
     <value>Voice Control</value>
   </data>
-  <data name="SetupHi.Text" xml:space="preserve">
+  <data name="SetupHi" xml:space="preserve">
     <value>Hi, there !</value>
     <comment>Introduction hi</comment>
   </data>
-  <data name="SetupIntroText.Text" xml:space="preserve">
+  <data name="SetupIntroStart" xml:space="preserve">
+    <value>Let's start</value>
+  </data>
+  <data name="SetupIntroSuggestion" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="SetupIntroText" xml:space="preserve">
     <value>Please complete the following setup process in order to have a great user experience</value>
+  </data>
+  <data name="VoiceChoose" xml:space="preserve">
+    <value>Woman or Man?</value>
+  </data>
+  <data name="VoiceDescription" xml:space="preserve">
+    <value>Please choose a voice</value>
+  </data>
+  <data name="VoiceSuggestion" xml:space="preserve">
+    <value>Man, Woman</value>
+  </data>
+  <data name="VoiceTitle" xml:space="preserve">
+    <value>Voice</value>
   </data>
 </root>

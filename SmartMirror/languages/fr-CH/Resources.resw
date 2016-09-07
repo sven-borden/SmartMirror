@@ -135,11 +135,11 @@
   <data name="ProgVoiceT" xml:space="preserve">
     <value>Voix</value>
   </data>
-  <data name="SetupHi.Text" xml:space="preserve">
+  <data name="SetupHi" xml:space="preserve">
     <value>Salut, toi!</value>
     <comment>Setup hi</comment>
   </data>
-  <data name="SetupIntroText.Text" xml:space="preserve">
+  <data name="SetupIntroText" xml:space="preserve">
     <value>Pour profiter de la meilleure expérience utilisateur possible, prend quelques instants pour choisir les bons paramètres</value>
   </data>
 </root>
