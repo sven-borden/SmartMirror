@@ -167,7 +167,7 @@
     <value>Please choose a voice</value>
   </data>
   <data name="VoiceSuggestion" xml:space="preserve">
-    <value>Man, Woman</value>
+    <value>man, woman</value>
   </data>
   <data name="VoiceTitle" xml:space="preserve">
     <value>Voice</value>

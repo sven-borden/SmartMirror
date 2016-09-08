@@ -1,4 +1,5 @@
-﻿using SmartMirror.Class.Setup;
+﻿using SmartMirror.Audio.Recognition.Setup;
+using SmartMirror.Class.Setup;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,7 +37,28 @@ namespace SmartMirror.Pages
 		{
 			//ApplicationLanguages.PrimaryLanguageOverride = "fr-CH";
 			this.InitializeComponent();
-			SetProgression();
+
+			DispatcherTimer checkConnectivity = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 20) };
+			checkConnectivity.Tick += (tick, args) =>
+			{
+				checkConnectivity.Stop();
+				if (InternetAccess.Internet.isConnected())
+					SetProgression();
+				else
+				{
+					Title = "No Internet Access";
+					Description = "Please ensure that an active internet connection is available, SmartMirror will proceed to setup once connection come back again";
+					this.Bindings.Update();
+					checkConnectivity.Interval = new TimeSpan(0, 0, 8);
+					checkConnectivity.Start();
+				}
+			};
+			checkConnectivity.Start();
+		}
+
+		private void isConnected()
+		{
+			throw new NotImplementedException();
 		}
 
 		private void SetProgression()
@@ -113,9 +136,37 @@ namespace SmartMirror.Pages
 
 		private void Display(int selectedProg)
 		{
+			ResourceLoader l = new Windows.ApplicationModel.Resources.ResourceLoader();
+
 			SetupItem current = SetupProgression[selectedProg];
 			Title = current.LongTitle.ToString();
 			Description = current.LongDescription;
+
+			QuestionListPanel.Children.Clear();
+			foreach (SetupQuestion question in current.Questions)
+			{
+				QuestionListPanel.Children.Add(new TextBlock()
+				{
+					Text = l.GetString(question.Question),
+					Foreground = new SolidColorBrush(Colors.White),
+					Margin = new Thickness(10)
+				});
+				QuestionListPanel.Children.Add(new TextBlock()
+				{
+					Text = "Try " + l.GetString(question.Suggestion),
+					Foreground = new SolidColorBrush(Colors.LightGray),
+					Margin = new Thickness(10)
+				});
+
+				SetupSpeechRecognition recognition = new SetupSpeechRecognition
+				(
+					new Windows.Media.SpeechRecognition.SpeechRecognitionListConstraint[] 
+					{
+						new Windows.Media.SpeechRecognition.SpeechRecognitionListConstraint(l.GetString(question.Suggestion).Split(','))
+					},
+					Windows.Media.SpeechRecognition.SpeechRecognizer.SystemSpeechLanguage
+				);
+			}
 		}
 
 		private void goNextProgression()

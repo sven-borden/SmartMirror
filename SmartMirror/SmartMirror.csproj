@@ -104,6 +104,7 @@
     <Compile Include="Audio\AudioCapturePermissions.cs" />
     <Compile Include="Audio\MediaElementExtension.cs" />
     <Compile Include="Audio\Expression\SpeechExpression.cs" />
+    <Compile Include="Audio\Recognition\Setup\SetupSpeechRecognition.cs" />
     <Compile Include="Audio\Recognition\SpeechRecognition.cs" />
     <Compile Include="Class\Calendar.cs" />
     <Compile Include="Class\Setup\SetupQuestion.cs" />
