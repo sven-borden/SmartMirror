@@ -1,4 +1,5 @@
 ﻿using SmartMirror.Audio;
+using SmartMirror.Class.News;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,13 +34,13 @@ namespace SmartMirror
 		ObservableCollection<Weather> TodayWeather;
 		ObservableCollection<Weather> TomorrowWeather;
 		ObservableCollection<Calendar> CalendarList;
-		ObservableCollection<News> NewsList;
+		ObservableCollection<NewsData> NewsList;
 
 		public MainPage()
         {
             this.InitializeComponent();
 			Time();
-
+			SetNews();
 			DispatcherTimer internetTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0) };
 			internetTimer.Tick += (tick, args) =>
 			{
@@ -55,6 +56,18 @@ namespace SmartMirror
 			};
 			internetTimer.Start();
         }
+
+		private async void SetNews()
+		{
+			if (NewsList == null)
+				NewsList = new ObservableCollection<NewsData>();
+			List<NewsData> news = new List<NewsData>();
+			news = await News.GetNews();
+			if (news == null)
+			return;
+			foreach(var item in news)
+				NewsList.Add(item);
+		}
 
 		private void Time()
 		{

@@ -102,17 +102,19 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Audio\AudioCapturePermissions.cs" />
-    <Compile Include="Audio\MediaElementExtension.cs" />
+    <Compile Include="Audio\Expression\MediaElementExtension.cs" />
     <Compile Include="Audio\Expression\SpeechExpression.cs" />
     <Compile Include="Audio\Recognition\Setup\SetupSpeechRecognition.cs" />
     <Compile Include="Audio\Recognition\SpeechRecognition.cs" />
     <Compile Include="Class\Calendar.cs" />
+    <Compile Include="Class\Converters\TempConverter.cs" />
+    <Compile Include="Class\News\NewsData.cs" />
     <Compile Include="Class\Setup\SetupQuestion.cs" />
     <Compile Include="InternetAccess\Internet.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Class\News.cs" />
+    <Compile Include="Class\News\News.cs" />
     <Compile Include="Class\Setup\SetupItem.cs" />
     <Compile Include="Pages\Startup.xaml.cs">
       <DependentUpon>Startup.xaml</DependentUpon>

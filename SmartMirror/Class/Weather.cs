@@ -51,7 +51,7 @@ namespace SmartMirror
 		/// </summary>
 		public string Icon { get; set; }
 
-		
+
 		/// <summary>
 		/// General constructor
 		/// </summary>
@@ -71,12 +71,12 @@ namespace SmartMirror
 		public async static Task<Weather> GetCurrentWeather(string city, string country, string language, string type)
 		{
 			ClientSettings.ApiUrl = "http://api.openweathermap.org/data/2.5";
-			ClientSettings.ApiKey = "c0fef2f73a39d4f8bf97ebf8dfc02e88"; 
+			ClientSettings.ApiKey = "c0fef2f73a39d4f8bf97ebf8dfc02e88";
 
 			var result = await CurrentWeather.GetByCityNameAsync(city, country, language, type);
 			if (!result.Success)
 				return null;
-			if (result.Item.TempMin.ToString().Contains(".")) 
+			if (result.Item.TempMin.ToString().Contains("."))
 				result.Item.TempMin = Convert.ToDouble(result.Item.TempMin.ToString().Split('.')[0]);
 			if (result.Item.TempMax.ToString().Contains("."))
 				result.Item.TempMax = Convert.ToDouble(result.Item.TempMax.ToString().Split('.')[0]);
@@ -91,7 +91,7 @@ namespace SmartMirror
 				Description = result.Item.Description,
 				Humidity = result.Item.Humidity,
 				WindSpeed = result.Item.WindSpeed,
-				Icon = result.Item.Icon
+				Icon = "ms-appx:///WeatherAssets/sun.png"
 			};
 			return t;
 		}
@@ -114,7 +114,7 @@ namespace SmartMirror
 				return null;
 
 			List<Weather> t = new List<Weather>();
-			foreach(var item in result.Items)
+			foreach (var item in result.Items)
 			{
 				t.Add(new Weather()
 				{

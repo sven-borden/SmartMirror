@@ -21,9 +21,9 @@
                 <item>commander</item>
                 <item>avoir</item>
                 <item>acheter</item>
-      </one-of>
+            </one-of>
           
-    </item>
+        </item>
         <item repeat="0-1">un</item>
         <ruleref uri="#foodItem"/>
         <tag>out.foodType=rules.latest();</tag>

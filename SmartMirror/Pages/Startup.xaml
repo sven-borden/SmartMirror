@@ -61,7 +61,7 @@
 				<StackPanel>
 					<TextBlock Style="{StaticResource TextBoxStd}" Text="{x:Bind Description}" />
 					<StackPanel Margin="20" x:Name="QuestionListPanel">
-						
+
 					</StackPanel>
 				</StackPanel>
 			</StackPanel>
