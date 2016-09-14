@@ -107,9 +107,11 @@
     <Compile Include="Audio\Recognition\Setup\SetupSpeechRecognition.cs" />
     <Compile Include="Audio\Recognition\SpeechRecognition.cs" />
     <Compile Include="Class\Calendar.cs" />
+    <Compile Include="Class\ComputerVision\Emotional.cs" />
     <Compile Include="Class\Converters\TempConverter.cs" />
     <Compile Include="Class\News\NewsData.cs" />
     <Compile Include="Class\Setup\SetupQuestion.cs" />
+    <Compile Include="Class\Webcam\Webcam.cs" />
     <Compile Include="InternetAccess\Internet.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
