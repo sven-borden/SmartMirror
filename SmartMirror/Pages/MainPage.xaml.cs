@@ -1,4 +1,4 @@
-﻿using SmartMirror.Time;
+﻿using SmartMirror.WeatherAPI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,32 +14,42 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace SmartMirror
+namespace SmartMirror.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
-    {
-		Clock LocalClock = new Clock();
-
-        public MainPage()
-        {
-            this.InitializeComponent();
+	/// <summary>
+	/// An empty page that can be used on its own or navigated to within a Frame.
+	/// </summary>
+	public sealed partial class MainPage : Page
+	{
+		public WeatherHandler weather = new WeatherHandler();
+		public MainPage()
+		{
+			this.InitializeComponent();
+			this.DataContext = this;
 			SetupClock();
-        }
+			SetupWeather();
+
+		}
+
+		private async void SetupWeather()
+		{
+			if (weather == null)
+				weather = new WeatherHandler();
+			await weather.GetWeather();
+			weather.CurrentWeather.weather[0].id = 1;
+		}
 
 		private void SetupClock()
 		{
-			DispatcherTimer t = new DispatcherTimer();
-			t.Interval = new TimeSpan(0, 0, 1);
-			t.Tick += (e, o) =>
+			DispatcherTimer Timer = new DispatcherTimer();
+			Timer.Tick += (e, r) => 
 			{
-				LocalClock.LocalTime = DateTime.Now;
+				Clock.Text = DateTime.Now.ToString("HH : mm");
 			};
-			t.Start();
+			Timer.Interval = new TimeSpan(0, 0, 1);
+			Timer.Start();
 		}
 	}
 }

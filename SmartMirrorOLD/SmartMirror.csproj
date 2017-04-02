@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{C48E5040-CE3D-437A-B29C-E4140F918815}</ProjectGuid>
+    <ProjectGuid>{E813AE34-990A-4062-8E2E-873636F0D9D4}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SmartMirror</RootNamespace>
@@ -100,9 +100,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeatherAPI\LocationManager.cs" />
-    <Compile Include="WeatherAPI\OpenWeatherMapProxy.cs" />
-    <Compile Include="WeatherAPI\WeatherHandler.cs" />
+    <Compile Include="Time\Clock.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -119,50 +117,22 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="WeatherIcon\200.png" />
-    <Content Include="WeatherIcon\211.png" />
-    <Content Include="WeatherIcon\212.png" />
-    <Content Include="WeatherIcon\500.png" />
-    <Content Include="WeatherIcon\501.png" />
-    <Content Include="WeatherIcon\600.png" />
-    <Content Include="WeatherIcon\601.png" />
-    <Content Include="WeatherIcon\615.png" />
-    <Content Include="WeatherIcon\616.png" />
-    <Content Include="WeatherIcon\701.png" />
-    <Content Include="WeatherIcon\711.png" />
-    <Content Include="WeatherIcon\800D.png" />
-    <Content Include="WeatherIcon\800N.png" />
-    <Content Include="WeatherIcon\801D.png" />
-    <Content Include="WeatherIcon\801N.png" />
-    <Content Include="WeatherIcon\802D.png" />
-    <Content Include="WeatherIcon\802N.png" />
-    <Content Include="WeatherIcon\803D.png" />
-    <Content Include="WeatherIcon\803N.png" />
-    <Content Include="WeatherIcon\804D.PNG" />
-    <Content Include="WeatherIcon\804N .png" />
-    <Content Include="WeatherIcon\900.png" />
-    <Content Include="WeatherIcon\902.png" />
-    <Content Include="WeatherIcon\903.png" />
-    <Content Include="WeatherIcon\904.png" />
-    <Content Include="WeatherIcon\905.png" />
-    <Content Include="WeatherIcon\NODATA.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Pages\MainPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hue\" />
     <Folder Include="News\" />
     <Folder Include="Sonos\" />
+    <Folder Include="Weather\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

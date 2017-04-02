@@ -1,31 +1,57 @@
 ﻿<Page
-    x:Class="SmartMirror.MainPage"
+    x:Class="SmartMirror.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:time="using:SmartMirror.Time"
-    xmlns:local="using:SmartMirror"
+    xmlns:local="using:SmartMirror.Pages"
+	xmlns:weatherloc="using:SmartMirror.WeatherAPI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
 	<Page.Resources>
+		
 		<Style TargetType="TextBlock" x:Key="TimeTextBlock">
-			<Setter Property="Margin" Value="10" />
 			<Setter Property="HorizontalAlignment" Value="Center" />
 			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="FontSize" Value="70" />
+			<Setter Property="Margin" Value="10" />
+			<Setter Property="FontSize" Value="150" />
+			<Setter Property="Foreground" Value="White" />
 		</Style>
+
+		<weatherloc:WeatherToImageConverter x:Key="WeatherToImageConverter" />
 	</Page.Resources>
 	
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<Grid Grid.Row="1" >
-			<TextBlock Text="{x:Bind LocalClock.LocalTime, Mode=OneWay, Converter=}" Style="{StaticResource TimeTextBlock}"/>
+		<!--Upper grid-->
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			
+			<!--Weather grid-->
+			<Grid Grid.Column="0">
+				<StackPanel Orientation="Horizontal">
+					<Image Source="{Binding weather.CurrentWeather, Mode=OneWay}" />
+					<TextBlock Text="{Binding weather.name, Mode=OneWay}}" Foreground="Snow"/>
+				</StackPanel>
+			</Grid>
+			
+			<!--TODO-->
+			<Grid Grid.Column="1">
+				
+			</Grid>
 		</Grid>
-	</Grid>
+		
+		<!--CENTERGRID-->
+		<Grid Grid.Row="1">
+			<TextBlock Style="{StaticResource TimeTextBlock}" x:Name="Clock" Text="00:00"/>
+		</Grid>
+    </Grid>
 </Page>
