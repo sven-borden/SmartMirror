@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,6 +102,7 @@ namespace SmartMirror.WeatherAPI
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
 			int v = (int)value;
+			Debug.WriteLine("Weather id : " + v);
 			string source = "ms-appx:/WeatherIcon/NODATA.png";
 			if (v < 200)
 			{

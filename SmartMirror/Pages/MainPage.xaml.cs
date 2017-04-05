@@ -37,8 +37,9 @@ namespace SmartMirror.Pages
 		{
 			if (weather == null)
 				weather = new WeatherHandler();
+			weather.CurrentWeather.weather.id = 800;
 			await weather.GetWeather();
-			weather.CurrentWeather.weather.id = 1;
+			
 
 			DispatcherTimer WeatherTimer = new DispatcherTimer();
 			WeatherTimer.Interval = new TimeSpan(0, 30, 0);

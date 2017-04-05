@@ -147,6 +147,9 @@
     <Content Include="WeatherIcon\904.png" />
     <Content Include="WeatherIcon\905.png" />
     <Content Include="WeatherIcon\NODATA.png" />
+    <Content Include="WeatherIcon\Pressure.png" />
+    <Content Include="WeatherIcon\Thermometer.png" />
+    <Content Include="WeatherIcon\waterdrop.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

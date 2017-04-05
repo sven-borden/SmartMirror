@@ -47,15 +47,25 @@
 					</StackPanel>
 					<Rectangle Height="100" Width="1" Fill="white" Margin="10" />
 					<StackPanel VerticalAlignment="Center"> <!--TEMP Panel-->
-						<TextBlock Text="{x:Bind weather.CurrentWeather.main.temp ,Mode=OneWay,Converter={StaticResource TempToTextConverter}}" Foreground="White" Margin="5"/>
-						<TextBlock Text="{x:Bind weather.CurrentWeather.main.pressure ,Mode=OneWay,Converter={StaticResource PressureToTextConverter}}" Foreground="White" Margin="5"/>
-						<TextBlock Text="{x:Bind weather.CurrentWeather.main.humidity ,Mode=OneWay,Converter={StaticResource HumidityToTextConverter}}" Foreground="White" Margin="5"/>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="ms-appx:///WeatherIcon/Thermometer.png" Height="15" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.temp ,Mode=OneWay,Converter={StaticResource TempToTextConverter}}" Foreground="White" Margin="5"/>
+						</StackPanel>
 						
+						<StackPanel Orientation="Horizontal">
+							<Image Source="ms-appx:///WeatherIcon/Pressure.png" Height="15" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.pressure ,Mode=OneWay,Converter={StaticResource PressureToTextConverter}}" Foreground="White" Margin="5"/>
+						</StackPanel>
+						
+						<StackPanel Orientation="Horizontal">
+							<Image Source="ms-appx:///WeatherIcon/waterdrop.png" Height="15" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.humidity ,Mode=OneWay,Converter={StaticResource HumidityToTextConverter}}" Foreground="White" Margin="5"/>
+						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</Grid>
 			
-			<!--TODO-->
+			<!--CFF-->
 			<Grid Grid.Column="1">
 				
 			</Grid>
@@ -64,6 +74,23 @@
 		<!--CENTERGRID-->
 		<Grid Grid.Row="1">
 			<TextBlock Style="{StaticResource TimeTextBlock}" x:Name="Clock" Text="00:00"/>
+		</Grid>
+
+		<!--DOWN Grid-->
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<!--SONOS-->
+			<Grid Grid.Column="0">
+				
+			</Grid>
+
+			<Grid Grid.Column="1">
+				
+			</Grid>
 		</Grid>
     </Grid>
 </Page>
