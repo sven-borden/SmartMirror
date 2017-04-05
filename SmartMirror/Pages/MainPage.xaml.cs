@@ -26,10 +26,10 @@ namespace SmartMirror.Pages
 		public WeatherHandler weather = new WeatherHandler();
 		public MainPage()
 		{
+			SetupWeather();
 			this.InitializeComponent();
 			this.DataContext = this;
 			SetupClock();
-			SetupWeather();
 
 		}
 
@@ -38,7 +38,14 @@ namespace SmartMirror.Pages
 			if (weather == null)
 				weather = new WeatherHandler();
 			await weather.GetWeather();
-			weather.CurrentWeather.weather[0].id = 1;
+			weather.CurrentWeather.weather.id = 1;
+
+			DispatcherTimer WeatherTimer = new DispatcherTimer();
+			WeatherTimer.Interval = new TimeSpan(0, 30, 0);
+			WeatherTimer.Tick +=  async (e, r) =>
+			{
+				await weather.GetWeather();
+			};
 		}
 
 		private void SetupClock()

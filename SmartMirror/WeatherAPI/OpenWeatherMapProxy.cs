@@ -13,7 +13,7 @@ namespace SmartMirror.WeatherAPI
     
 	class OpenWeatherMapProxy
     {
-		public async static Task<WeatherData> GetWeather(double lat, double lon)
+		public async static Task<Data> GetWeather(double lat, double lon)
 		{
 			var http = new HttpClient();
 			var response = await http.GetAsync(@"http://api.openweathermap.org/data/2.5/weather?id=7287036&units=metric&lang=fr&APPID=c0fef2f73a39d4f8bf97ebf8dfc02e88");
@@ -21,7 +21,7 @@ namespace SmartMirror.WeatherAPI
 			var serializer = new DataContractJsonSerializer(typeof(WeatherData));
 			var ms = new MemoryStream(Encoding.UTF8.GetBytes(result));
 			var data = (WeatherData)serializer.ReadObject(ms);
-			return data;
+			return new Data(data);
 		}
 	}
 
@@ -32,7 +32,7 @@ namespace SmartMirror.WeatherAPI
 		public Coord coord { get; set; }
 
 		[DataMember]
-		public Weather weather { get; set; }
+		public List<Weather> weather { get; set; }
 
 		[DataMember]
 		public string @base { get; set; }
