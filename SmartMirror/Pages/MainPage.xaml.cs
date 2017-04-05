@@ -1,4 +1,5 @@
-﻿using SmartMirror.WeatherAPI;
+﻿using SmartMirror.Sonos;
+using SmartMirror.WeatherAPI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,13 +25,26 @@ namespace SmartMirror.Pages
 	public sealed partial class MainPage : Page
 	{
 		public WeatherHandler weather = new WeatherHandler();
+		Music Sonos = null;
+
+
 		public MainPage()
 		{
 			SetupWeather();
 			this.InitializeComponent();
 			this.DataContext = this;
 			SetupClock();
+			SetupSonos();
 
+		}
+
+		private async void SetupSonos()
+		{
+			if (Sonos == null)
+				Sonos = new Music();
+			Sonos.Prepare();
+			Sonos.Play();
+			
 		}
 
 		private async void SetupWeather()

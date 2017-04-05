@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SmartMirror.Pages"
 	xmlns:weatherloc="using:SmartMirror.WeatherAPI"
+	xmlns:sound="using:SmartMirror.Sonos"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -22,6 +23,8 @@
 		<weatherloc:TempToTextConverter x:Key="TempToTextConverter" />
 		<weatherloc:PressureToTextConverter x:Key="PressureToTextConverter" />
 		<weatherloc:HumidityToTextConverter x:Key="HumidityToTextConverter" />
+		<sound:PlayingConverter x:Key="PlayingConverter" />
+		<sound:TitleConverter x:Key="TitleConverter" />
 	</Page.Resources>
 	
     <Grid Background="Black">
@@ -48,18 +51,18 @@
 					<Rectangle Height="100" Width="1" Fill="white" Margin="10" />
 					<StackPanel VerticalAlignment="Center"> <!--TEMP Panel-->
 						<StackPanel Orientation="Horizontal">
-							<Image Source="ms-appx:///WeatherIcon/Thermometer.png" Height="15" />
-							<TextBlock Text="{x:Bind weather.CurrentWeather.main.temp ,Mode=OneWay,Converter={StaticResource TempToTextConverter}}" Foreground="White" Margin="5"/>
+							<Image Source="ms-appx:///WeatherIcon/Thermometer.png" Height="20" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.temp ,Mode=OneWay,Converter={StaticResource TempToTextConverter}}" Foreground="White" Margin="5" FontSize="20"/>
 						</StackPanel>
 						
 						<StackPanel Orientation="Horizontal">
-							<Image Source="ms-appx:///WeatherIcon/Pressure.png" Height="15" />
-							<TextBlock Text="{x:Bind weather.CurrentWeather.main.pressure ,Mode=OneWay,Converter={StaticResource PressureToTextConverter}}" Foreground="White" Margin="5"/>
+							<Image Source="ms-appx:///WeatherIcon/Pressure.png" Height="20" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.pressure ,Mode=OneWay,Converter={StaticResource PressureToTextConverter}}" Foreground="White" Margin="5" FontSize="20"/>
 						</StackPanel>
 						
 						<StackPanel Orientation="Horizontal">
-							<Image Source="ms-appx:///WeatherIcon/waterdrop.png" Height="15" />
-							<TextBlock Text="{x:Bind weather.CurrentWeather.main.humidity ,Mode=OneWay,Converter={StaticResource HumidityToTextConverter}}" Foreground="White" Margin="5"/>
+							<Image Source="ms-appx:///WeatherIcon/waterdrop.png" Height="20" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.humidity ,Mode=OneWay,Converter={StaticResource HumidityToTextConverter}}" Foreground="White" Margin="5" FontSize="20"/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
@@ -77,7 +80,7 @@
 		</Grid>
 
 		<!--DOWN Grid-->
-		<Grid Grid.Row="2">
+		<Grid Grid.Row="2" Margin="20">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
@@ -85,7 +88,22 @@
 
 			<!--SONOS-->
 			<Grid Grid.Column="0">
-				
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					
+					<TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Sonos.IsPlaying,Converter={StaticResource PlayingConverter},Mode=OneWay}" Foreground="White" FontSize="60"/>
+					<Grid Grid.Column="1">
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<TextBlock Grid.Row="0" Text="{x:Bind Sonos.CurrentSong.Title, Mode=OneWay, Converter={StaticResource TitleConverter}}" Foreground="White"/>
+						<ProgressBar Grid.Row="1" Foreground="White" Height="10" Minimum="0" Maximum="{x:Bind Sonos.CurrentSong.Duration, Mode=OneWay}" Value="{x:Bind Sonos.CurrentSong.RealTime, Mode=OneWay}" Background="#555555"/>
+					</Grid>
+				</Grid>
 			</Grid>
 
 			<Grid Grid.Column="1">
