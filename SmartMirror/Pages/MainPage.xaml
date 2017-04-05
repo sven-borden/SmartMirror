@@ -38,8 +38,8 @@
 			<!--Weather grid-->
 			<Grid Grid.Column="0">
 				<StackPanel Orientation="Horizontal">
-					<Image Source="{Binding weather.CurrentWeather, Mode=OneWay}" />
-					<TextBlock Text="{Binding weather.name, Mode=OneWay}}" Foreground="Snow"/>
+					
+					<TextBlock Text="{x:Bind weather.CurrentWeather.weather.id}" Foreground="Snow"/>
 				</StackPanel>
 			</Grid>
 			

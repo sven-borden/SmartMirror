@@ -32,7 +32,7 @@ namespace SmartMirror.WeatherAPI
 		public Coord coord { get; set; }
 
 		[DataMember]
-		public List<Weather> weather { get; set; }
+		public Weather weather { get; set; }
 
 		[DataMember]
 		public string @base { get; set; }
