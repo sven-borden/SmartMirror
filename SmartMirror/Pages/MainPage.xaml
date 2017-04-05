@@ -101,7 +101,15 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 						<TextBlock Grid.Row="0" Text="{x:Bind Sonos.CurrentSong.Title, Mode=OneWay, Converter={StaticResource TitleConverter}}" Foreground="White"/>
-						<ProgressBar Grid.Row="1" Foreground="White" Height="10" Minimum="0" Maximum="{x:Bind Sonos.CurrentSong.Duration, Mode=OneWay}" Value="{x:Bind Sonos.CurrentSong.RealTime, Mode=OneWay}" Background="#555555"/>
+						<Grid Grid.Row="1">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<ProgressBar Grid.Column="0" Foreground="White" Height="10" Minimum="0" Maximum="{x:Bind Sonos.CurrentSong.Duration, Mode=OneWay}" Value="{x:Bind Sonos.CurrentSong.RealTime, Mode=OneWay}" Background="#555555"/>
+							<TextBlock Grid.Column="1" Foreground="LightGray" Text="{x:Bind Sonos.CurrentSong.Duration, Mode=OneWay}" />
+						</Grid>
+						
 					</Grid>
 				</Grid>
 			</Grid>

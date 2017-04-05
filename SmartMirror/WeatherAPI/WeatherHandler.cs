@@ -164,15 +164,25 @@ namespace SmartMirror.WeatherAPI
 										if(v < 900)
 										{
 											if (v == 800)
+											{
 												source = "ms-appx:/WeatherIcon/800D.png";
+											}
 											if (v == 801)
+											{
 												source = "ms-appx:/WeatherIcon/801D.png";
+											}
 											if (v == 802)
+											{
 												source = "ms-appx:/WeatherIcon/802D.png";
+											}
 											if (v == 803)
+											{
 												source = "ms-appx:/WeatherIcon/803D.png";
+											}
 											if (v == 804)
+											{
 												source = "ms-appx:/WeatherIcon/804D.png";
+											}
 										}
 										else
 										{
