@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMirror", "SmartMirror\SmartMirror.csproj", "{C48E5040-CE3D-437A-B29C-E4140F918815}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sonos.Client", "..\..\..\Downloads\Sonos.Client-master\Sonos.Client-master\Sonos.Client\Sonos.Client.csproj", "{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonosClient", "SonosClient\SonosClient.csproj", "{F51B4887-AB4C-4858-B995-011E19DB7CDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,22 +39,22 @@ Global
 		{C48E5040-CE3D-437A-B29C-E4140F918815}.Release|x86.ActiveCfg = Release|x86
 		{C48E5040-CE3D-437A-B29C-E4140F918815}.Release|x86.Build.0 = Release|x86
 		{C48E5040-CE3D-437A-B29C-E4140F918815}.Release|x86.Deploy.0 = Release|x86
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|ARM.Build.0 = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|x64.Build.0 = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Debug|x86.Build.0 = Debug|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|ARM.ActiveCfg = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|ARM.Build.0 = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|x64.ActiveCfg = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|x64.Build.0 = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|x86.ActiveCfg = Release|Any CPU
-		{C6731E69-E046-48A0-AB06-54B7F4F6F9B2}.Release|x86.Build.0 = Release|Any CPU
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|ARM.Build.0 = Debug|ARM
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|x64.ActiveCfg = Debug|x64
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|x64.Build.0 = Debug|x64
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|x86.ActiveCfg = Debug|x86
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Debug|x86.Build.0 = Debug|x86
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|ARM.ActiveCfg = Release|ARM
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|ARM.Build.0 = Release|ARM
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|x64.ActiveCfg = Release|x64
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|x64.Build.0 = Release|x64
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|x86.ActiveCfg = Release|x86
+		{F51B4887-AB4C-4858-B995-011E19DB7CDB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
