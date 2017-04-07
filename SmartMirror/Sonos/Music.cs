@@ -117,7 +117,14 @@ namespace SmartMirror.Sonos
 		/// <returns></returns>
 		public async Task<bool> isPlaying()
 		{
-			IsPlaying = await Sonos.IsPlaying();
+			try
+			{
+				IsPlaying = await Sonos.IsPlaying();
+			}
+			catch(NullReferenceException e)
+			{
+				Debug.WriteLine(e.Message);
+			}
 			return IsPlaying;
 		}
 
@@ -135,7 +142,14 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public async void Play()
 		{
-			await Sonos.Play();
+			try
+			{
+				await Sonos.Play();
+			}
+			catch(NullReferenceException e)
+			{
+				Debug.WriteLine("Play " + e.Message);
+			}
 		}
 
 		/// <summary>

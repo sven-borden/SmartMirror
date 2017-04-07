@@ -3,34 +3,25 @@ using Newtonsoft.Json;
 using Sonos.Client.Models;
 using Sonos.Client.Models.Spotify;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Sonos.Client
 {
-    public class SonosClient
+	public class SonosClient
     {
         public event NotificationEventHandler NotificationEvent;
         public delegate void NotificationEventHandler(Object sender, Event e);
 
         protected virtual void OnNotificationEvent(Event e)
         {
-            NotificationEventHandler handler = NotificationEvent;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
+			NotificationEvent?.Invoke(this, e);
+		}
 
         private string BaseUrl;
         private string BaseUrlFormat = "http://{0}:{1}";
@@ -82,7 +73,7 @@ namespace Sonos.Client
             BaseUrl = string.Format(BaseUrlFormat, ipAddress, port);
         }
 
-        public async Task<Propertyset> ParseZoneGroupTopologyNotification(string notification)
+        public Propertyset ParseZoneGroupTopologyNotification(string notification)
         {
             try
             {
@@ -108,6 +99,7 @@ namespace Sonos.Client
             }
             catch (Exception ex)
             {
+				Debug.WriteLine(ex.Message);
                 return null;
             }
         }
@@ -126,12 +118,12 @@ namespace Sonos.Client
 
                 try
                 {
-                    obj.InstanceID.CurrentTrackMetaData.TrackMeta = await GetTrackMetaData(obj.InstanceID.CurrentTrackMetaData.Val);
+                    obj.InstanceID.CurrentTrackMetaData.TrackMeta = GetTrackMetaData(obj.InstanceID.CurrentTrackMetaData.Val);
                 }
                 catch (Exception e) { }
                 try
                 {
-                    obj.InstanceID.NextTrackMetaData.TrackMeta = await GetTrackMetaData(obj.InstanceID.NextTrackMetaData.Val);
+                    obj.InstanceID.NextTrackMetaData.TrackMeta = GetTrackMetaData(obj.InstanceID.NextTrackMetaData.Val);
                 }
                 catch (Exception e) { }
 
@@ -141,11 +133,12 @@ namespace Sonos.Client
             }
             catch (Exception e)
             {
+				Debug.WriteLine(e.Message);
                 return null;
             }
         }
 
-        private async Task<TrackMeta> GetTrackMetaData(string metaData)
+        private TrackMeta GetTrackMetaData(string metaData)
         {
             try
             {
@@ -158,6 +151,7 @@ namespace Sonos.Client
             }
             catch (Exception e)
             {
+				Debug.WriteLine(e.Message);
                 return null;
             }
         }
@@ -232,251 +226,340 @@ namespace Sonos.Client
 
         public async Task<PositionInfoResponse> GetPositionInfo()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, GetPositionInfoSoapAction);
-                HttpContent postContent = new StringContent(GetPositionInfoBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    //Set proper content encoding without quotes
-                    response.Content.Headers.Remove("CONTENT-TYPE");
-                    response.Content.Headers.Add("CONTENT-TYPE", "text/xml; charset=UTF-8");
-                    var content = await response.Content.ReadAsStringAsync();
-                    content = SonosUtils.CleanSonosResponse(content);
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, GetPositionInfoSoapAction);
+					HttpContent postContent = new StringContent(GetPositionInfoBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						//Set proper content encoding without quotes
+						response.Content.Headers.Remove("CONTENT-TYPE");
+						response.Content.Headers.Add("CONTENT-TYPE", "text/xml; charset=UTF-8");
+						var content = await response.Content.ReadAsStringAsync();
+						content = SonosUtils.CleanSonosResponse(content);
 
-                    var settings = new XmlReaderSettings();
-                    var obj = new Envelope();
-                    var serializer = new XmlSerializer(typeof(Envelope));
-                    obj = (Envelope)serializer.Deserialize(new StringReader(content));
+						var settings = new XmlReaderSettings();
+						var obj = new Envelope();
+						var serializer = new XmlSerializer(typeof(Envelope));
+						obj = (Envelope)serializer.Deserialize(new StringReader(content));
 
-                    return obj.Body.PositionInfoResponse;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+						return obj.Body.PositionInfoResponse;
+					}
+					else
+					{
+						return null;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return null;
+			}
         }
 
         public async Task<DeviceDescription> GetDeviceDescription()
         {
-            if (deviceDescription != null)
-                return deviceDescription;
-            else
-            {
-                using (var client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(BaseUrl + "/" + DeviceDescriptionUrl);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
+			try
+			{
+				if (deviceDescription != null)
+					return deviceDescription;
+				else
+				{
+					using (var client = new HttpClient())
+					{
+						HttpResponseMessage response = await client.GetAsync(BaseUrl + "/" + DeviceDescriptionUrl);
+						if (response.IsSuccessStatusCode)
+						{
+							var content = await response.Content.ReadAsStringAsync();
 
-                        var settings = new XmlReaderSettings();
-                        var obj = new DeviceDescription();
-                        var serializer = new System.Xml.Serialization.XmlSerializer(typeof(DeviceDescription));
-                        obj = (DeviceDescription)serializer.Deserialize(new StringReader(content));
+							var settings = new XmlReaderSettings();
+							var obj = new DeviceDescription();
+							var serializer = new System.Xml.Serialization.XmlSerializer(typeof(DeviceDescription));
+							obj = (DeviceDescription)serializer.Deserialize(new StringReader(content));
 
-                        deviceDescription = obj;
+							deviceDescription = obj;
 
-                        return obj;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
+							return obj;
+						}
+						else
+						{
+							return null;
+						}
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return null;
+			}
         }
 
         public async Task<Track> GetTrackInfo(TrackURI trackUri)
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                //client.DefaultRequestHeaders.Add("CSP", "active");
-                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36");
-                var trackUriString = "https://embed.spotify.com/oembed/?url=" + trackUri.Val.Replace("x-sonos-spotify:", "").Replace("?sid=9&flags=32&sn=2", "").Replace("%3a", ":");
-                Debug.WriteLine(trackUriString);
-                HttpResponseMessage response = await client.GetAsync(trackUriString);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var track = JsonConvert.DeserializeObject<Track>(content);
+			try
+			{
 
-                    return track;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add("Accept", "application/json");
+					//client.DefaultRequestHeaders.Add("CSP", "active");
+					client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36");
+					var trackUriString = "https://embed.spotify.com/oembed/?url=" + trackUri.Val.Replace("x-sonos-spotify:", "").Replace("?sid=9&flags=32&sn=2", "").Replace("%3a", ":");
+					Debug.WriteLine(trackUriString);
+					HttpResponseMessage response = await client.GetAsync(trackUriString);
+					if (response.IsSuccessStatusCode)
+					{
+						var content = await response.Content.ReadAsStringAsync();
+						var track = JsonConvert.DeserializeObject<Track>(content);
+
+						return track;
+					}
+					else
+					{
+						return null;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return null;
+			}
         }
 
         public async Task<bool> Play()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, PlaySoapAction);
-                HttpContent postContent = new StringContent(PlayBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, PlaySoapAction);
+					HttpContent postContent = new StringContent(PlayBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
         }
 
         public async Task<bool> Pause()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, PauseSoapAction);
-                HttpContent postContent = new StringContent(PauseBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, PauseSoapAction);
+					HttpContent postContent = new StringContent(PauseBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
         }
 
         public async Task<bool> Next()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, NextSoapAction);
-                HttpContent postContent = new StringContent(NextBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, NextSoapAction);
+					HttpContent postContent = new StringContent(NextBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
         }
 
         public async Task<bool> Previous()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, PreviousSoapAction);
-                HttpContent postContent = new StringContent(PreviousBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, PreviousSoapAction);
+					HttpContent postContent = new StringContent(PreviousBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
+		}
         public async Task<bool> SetVolume(int percentage)
         {
             if (percentage < 0 || percentage > 100)
                 percentage = 0;
 
-            using (var client = new HttpClient())
-            {
-                var body = string.Format(SetVolumeBody, percentage);
-                client.DefaultRequestHeaders.Add(SoapActionHeader, SetVolumeSoapAction);
-                HttpContent postContent = new StringContent(body, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererRenderingControlUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					var body = string.Format(SetVolumeBody, percentage);
+					client.DefaultRequestHeaders.Add(SoapActionHeader, SetVolumeSoapAction);
+					HttpContent postContent = new StringContent(body, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererRenderingControlUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
+		}
 
         public async Task<bool> SetMute(bool mute)
         {
-            using (var client = new HttpClient())
-            {
-                var body = string.Format(SetMuteBody, mute ? 1 : 0);
-                client.DefaultRequestHeaders.Add(SoapActionHeader, SetMuteSoapAction);
-                HttpContent postContent = new StringContent(body, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererRenderingControlUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					var body = string.Format(SetMuteBody, mute ? 1 : 0);
+					client.DefaultRequestHeaders.Add(SoapActionHeader, SetMuteSoapAction);
+					HttpContent postContent = new StringContent(body, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererRenderingControlUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
+		}
 
 
         public async Task<bool> IsPlaying()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, GetPlayingSoapAction);
-                HttpContent postContent = new StringContent(GetPlayingBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    //Set proper content encoding without quotes
-                    response.Content.Headers.Remove("CONTENT-TYPE");
-                    response.Content.Headers.Add("CONTENT-TYPE", "text/xml; charset=UTF-8");
-                    var content = await response.Content.ReadAsStringAsync();
-                    return content.Contains("PLAYING");
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, GetPlayingSoapAction);
+					HttpContent postContent = new StringContent(GetPlayingBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererAVTransportUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						//Set proper content encoding without quotes
+						response.Content.Headers.Remove("CONTENT-TYPE");
+						response.Content.Headers.Add("CONTENT-TYPE", "text/xml; charset=UTF-8");
+						var content = await response.Content.ReadAsStringAsync();
+						return content.Contains("PLAYING");
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
+		}
 
         public async Task<int> GetVolume()
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add(SoapActionHeader, GetVolumeSoapAction);
-                HttpContent postContent = new StringContent(GetVolumeBody, Encoding.UTF8, "text/xml");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererRenderingControlUrl, postContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    //Set proper content encoding without quotes
-                    response.Content.Headers.Remove("CONTENT-TYPE");
-                    response.Content.Headers.Add("CONTENT-TYPE", "text/xml; charset=UTF-8");
-                    var content = await response.Content.ReadAsStringAsync();
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Add(SoapActionHeader, GetVolumeSoapAction);
+					HttpContent postContent = new StringContent(GetVolumeBody, Encoding.UTF8, "text/xml");
+					HttpResponseMessage response = await client.PostAsync(BaseUrl + "/" + MediaRendererRenderingControlUrl, postContent);
+					if (response.IsSuccessStatusCode)
+					{
+						//Set proper content encoding without quotes
+						response.Content.Headers.Remove("CONTENT-TYPE");
+						response.Content.Headers.Add("CONTENT-TYPE", "text/xml; charset=UTF-8");
+						var content = await response.Content.ReadAsStringAsync();
 
-                    var startIndex = content.IndexOf("<CurrentVolume>") + 15;
-                    var endIndex = content.IndexOf("</CurrentVolume>");
-                    var volumeString = content.Substring(startIndex, endIndex - startIndex);
-                    var volume = 0;
-                    if (Int32.TryParse(volumeString, out volume) && volume >= 0 && volume <= 100)
-                    {
-                        return volume;
-                    }
-                    return 0;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+						var startIndex = content.IndexOf("<CurrentVolume>") + 15;
+						var endIndex = content.IndexOf("</CurrentVolume>");
+						var volumeString = content.Substring(startIndex, endIndex - startIndex);
+						var volume = 0;
+						if (Int32.TryParse(volumeString, out volume) && volume >= 0 && volume <= 100)
+						{
+							return volume;
+						}
+						return 0;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+				return false;
+			}
+		}
     }
 }
