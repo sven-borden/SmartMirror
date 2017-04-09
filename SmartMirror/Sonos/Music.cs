@@ -80,9 +80,12 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		private async void RefreshSong()
 		{
+			if (Sonos == null)
+				return;
 			await isPlaying();
 			PositionInfoResponse positionInfo = await Sonos.GetPositionInfo();
-
+			if (positionInfo == null)
+				return;
 			SetTrackDataFromMeta(positionInfo.TrackMetaData, positionInfo.TrackDuration, positionInfo.RelTime);
 		}
 
@@ -141,15 +144,8 @@ namespace SmartMirror.Sonos
 		/// Start to play
 		/// </summary>
 		public async void Play()
-		{
-			try
-			{
+		{ 
 				await Sonos.Play();
-			}
-			catch(NullReferenceException e)
-			{
-				Debug.WriteLine("Play " + e.Message);
-			}
 		}
 
 		/// <summary>

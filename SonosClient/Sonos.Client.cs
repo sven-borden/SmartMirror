@@ -558,7 +558,7 @@ namespace Sonos.Client
 			catch (Exception e)
 			{
 				Debug.WriteLine(e.Message);
-				return false;
+				return 0;
 			}
 		}
     }
