@@ -13,6 +13,7 @@ namespace SmartMirror.Sonos
 		public string Creator { get; set; }
 		public string Album { get; set; }
 		public int Duration { get; set; }
+		public int Remaining { get; set; }
 		private int realTime;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -45,6 +46,7 @@ namespace SmartMirror.Sonos
 			Creator = "Unkown Creator";
 			Duration = 1;
 			RealTime = 0;
+			Remaining = 0;
 		}
 	}
 }

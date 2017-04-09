@@ -25,6 +25,7 @@
 		<weatherloc:HumidityToTextConverter x:Key="HumidityToTextConverter" />
 		<sound:PlayingConverter x:Key="PlayingConverter" />
 		<sound:TitleConverter x:Key="TitleConverter" />
+		<sound:DurationConverter x:Key="DurationConverter" />
 	</Page.Resources>
 	
     <Grid Background="Black">
@@ -45,24 +46,24 @@
 			<Grid Grid.Column="0">
 				<StackPanel Orientation="Horizontal" Margin="10">
 					<StackPanel> <!--ICON PANEL-->
-						<Image Source="{x:Bind weather.CurrentWeather.weather.id,Converter={StaticResource WeatherToImageConverter},Mode=OneWay}" Margin="5"/>
-						<TextBlock Text="{x:Bind weather.CurrentWeather.weather.description, Mode=OneWay}" Foreground="White" HorizontalAlignment="Center"/>
+						<Image Source="{x:Bind weather.CurrentWeather.weather.id,Converter={StaticResource WeatherToImageConverter},Mode=OneWay}" Margin="5" Width="100"/>
+						<TextBlock Text="{x:Bind weather.CurrentWeather.weather.description, Mode=OneWay}" Foreground="White" HorizontalAlignment="Center" FontSize="35"/>
 					</StackPanel>
-					<Rectangle Height="100" Width="1" Fill="white" Margin="10" />
+					<Rectangle Height="150" Width="1" Fill="white" Margin="10" />
 					<StackPanel VerticalAlignment="Center"> <!--TEMP Panel-->
 						<StackPanel Orientation="Horizontal">
-							<Image Source="ms-appx:///WeatherIcon/Thermometer.png" Height="20" />
-							<TextBlock Text="{x:Bind weather.CurrentWeather.main.temp ,Mode=OneWay,Converter={StaticResource TempToTextConverter}}" Foreground="White" Margin="5" FontSize="20"/>
+							<Image Source="ms-appx:///WeatherIcon/Thermometer.png" Height="35" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.temp ,Mode=OneWay,Converter={StaticResource TempToTextConverter}}" Foreground="White" Margin="5" FontSize="35"/>
 						</StackPanel>
 						
 						<StackPanel Orientation="Horizontal">
-							<Image Source="ms-appx:///WeatherIcon/Pressure.png" Height="20" />
-							<TextBlock Text="{x:Bind weather.CurrentWeather.main.pressure ,Mode=OneWay,Converter={StaticResource PressureToTextConverter}}" Foreground="White" Margin="5" FontSize="20"/>
+							<Image Source="ms-appx:///WeatherIcon/Pressure.png" Height="35" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.pressure ,Mode=OneWay,Converter={StaticResource PressureToTextConverter}}" Foreground="White" Margin="5" FontSize="35"/>
 						</StackPanel>
 						
 						<StackPanel Orientation="Horizontal">
-							<Image Source="ms-appx:///WeatherIcon/waterdrop.png" Height="20" />
-							<TextBlock Text="{x:Bind weather.CurrentWeather.main.humidity ,Mode=OneWay,Converter={StaticResource HumidityToTextConverter}}" Foreground="White" Margin="5" FontSize="20"/>
+							<Image Source="ms-appx:///WeatherIcon/waterdrop.png" Height="35" />
+							<TextBlock Text="{x:Bind weather.CurrentWeather.main.humidity ,Mode=OneWay,Converter={StaticResource HumidityToTextConverter}}" Foreground="White" Margin="5" FontSize="35"/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
@@ -100,14 +101,17 @@
 							<RowDefinition />
 							<RowDefinition />
 						</Grid.RowDefinitions>
-						<TextBlock Grid.Row="0" Text="{x:Bind Sonos.CurrentSong.Title, Mode=OneWay, Converter={StaticResource TitleConverter}}" Foreground="White"/>
+						<StackPanel Grid.Row="0">
+							<TextBlock Text="{x:Bind Sonos.CurrentSong.Title, Mode=OneWay, Converter={StaticResource TitleConverter}}" Foreground="White" FontSize="25"/>
+							<TextBlock Text="{x:Bind Sonos.CurrentSong.Creator, Mode=OneWay}" Foreground="White" FontSize="22"/>
+						</StackPanel>
 						<Grid Grid.Row="1">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<ProgressBar Grid.Column="0" Foreground="White" Height="10" Minimum="0" Maximum="{x:Bind Sonos.CurrentSong.Duration, Mode=OneWay}" Value="{x:Bind Sonos.CurrentSong.RealTime, Mode=OneWay}" Background="#555555"/>
-							<TextBlock Grid.Column="1" Foreground="LightGray" Text="{x:Bind Sonos.CurrentSong.Duration, Mode=OneWay}" />
+							<TextBlock Grid.Column="1" Margin="5" Foreground="LightGray" FontSize="20" Text="{x:Bind Sonos.CurrentSong.Remaining, Mode=OneWay, Converter={StaticResource DurationConverter}}" />
 						</Grid>
 						
 					</Grid>

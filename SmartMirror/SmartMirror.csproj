@@ -102,6 +102,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sonos\Music.cs" />
     <Compile Include="Sonos\Song.cs" />
+    <Compile Include="Properties\AudioCapturePermissions.cs" />
+    <Compile Include="Voice\Otto.cs" />
+    <Compile Include="Voice\VoiceHandler.cs" />
     <Compile Include="WeatherAPI\Data.cs" />
     <Compile Include="WeatherAPI\LocationManager.cs" />
     <Compile Include="WeatherAPI\OpenWeatherMapProxy.cs" />
@@ -122,6 +125,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Voice\SRGS\Sonos.xml" />
     <Content Include="WeatherIcon\200.png" />
     <Content Include="WeatherIcon\211.png" />
     <Content Include="WeatherIcon\212.png" />

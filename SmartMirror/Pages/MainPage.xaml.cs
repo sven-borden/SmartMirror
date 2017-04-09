@@ -1,4 +1,5 @@
 ﻿using SmartMirror.Sonos;
+using SmartMirror.Voice;
 using SmartMirror.WeatherAPI;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace SmartMirror.Pages
 	{
 		public WeatherHandler weather = new WeatherHandler();
 		Music Sonos = null;
+		VoiceHandler Voice = null;
 
 
 		public MainPage()
@@ -35,16 +37,19 @@ namespace SmartMirror.Pages
 			this.DataContext = this;
 			SetupClock();
 			SetupSonos();
-
+			//SetupVoice();
 		}
 
-		private async void SetupSonos()
+		private void SetupVoice()
+		{
+			Voice = new VoiceHandler();
+		}
+
+		private void SetupSonos()
 		{
 			if (Sonos == null)
 				Sonos = new Music();
-			Sonos.Prepare();
-			Sonos.Play();
-			
+			Sonos.Prepare();			
 		}
 
 		private async void SetupWeather()

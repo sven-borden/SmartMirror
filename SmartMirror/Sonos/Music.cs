@@ -73,6 +73,22 @@ namespace SmartMirror.Sonos
 			{
 				RefreshSong();
 			};
+			DispatcherTimer t = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 1) };
+			t.Tick += (e, o) =>
+			{
+				if (!IsPlaying)
+					return;
+				CurrentSong = new Song()
+				{
+					Album = currentSong.Album,
+					Creator = currentSong.Creator,
+					Duration = currentSong.Duration,
+					RealTime = currentSong.RealTime + 1,
+					Title = currentSong.Title,
+					Remaining = currentSong.Duration - currentSong.RealTime - 1
+				};
+			};
+			t.Start();
 		}
 
 		/// <summary>
@@ -100,11 +116,29 @@ namespace SmartMirror.Sonos
 			trackMetaData = trackMetaData.Replace("&gt;", ">");
 			trackMetaData = trackMetaData.Replace("&quot;", "\"");
 			trackMetaData = trackMetaData.Replace("&amp;", "&");
-			string _title = trackMetaData.Split(new string[] { "<dc:title>", "</dc:title>" }, StringSplitOptions.RemoveEmptyEntries)[1];
-			string _album = trackMetaData.Split(new string[] { "<album>", "</album>" }, StringSplitOptions.RemoveEmptyEntries)[1];
-			string _creator = trackMetaData.Split(new string[] { "<dc:creator>", "</dc:creator>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+			trackMetaData = trackMetaData.Replace("&apos;", "'");
+			string _title = string.Empty;
+			string _album = string.Empty;
+			string _creator = string.Empty;
+			if (!trackMetaData.Contains("albumArtURI"))//Radio
+			{
+				_title = trackMetaData.Split(new string[] { "<r:streamContent>", "</r:streamContent>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+			}
+			else
+			{
+				_title = trackMetaData.Split(new string[] { "<dc:title>", "</dc:title>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+				_album = trackMetaData.Split(new string[] { "<album>", "</album>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+				_creator = trackMetaData.Split(new string[] { "<dc:creator>", "</dc:creator>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+			}
 
-			CurrentSong = new Song() { Title = _title,Album = _album,Creator = _creator,Duration = ConvertToSecond(_duration), RealTime = ConvertToSecond(_reltime)};
+			CurrentSong = new Song()
+			{
+				Title = _title,
+				Album = _album,Creator = _creator,
+				Duration = ConvertToSecond(_duration),
+				RealTime = ConvertToSecond(_reltime),
+				Remaining = ConvertToSecond(_duration) - ConvertToSecond(_reltime)
+			};
 		}
 
 		private int ConvertToSecond(string duration)
@@ -212,6 +246,26 @@ namespace SmartMirror.Sonos
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
 			return value;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class DurationConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, string language)
+		{
+			int du = (int)value;
+			int min = du % 60;
+			int hour = du / 60;
+			if (hour != 0)
+				return hour + "m " + min + "s";
+			else
+				return min + "s";
+
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -104,8 +104,10 @@ namespace Sonos.Client
             }
         }
 
-        public async Task<Event> ParseNotification(string notification)
-        {
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+		public async Task<Event> ParseNotification(string notification)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+		{
             try
             {
 
@@ -120,12 +122,12 @@ namespace Sonos.Client
                 {
                     obj.InstanceID.CurrentTrackMetaData.TrackMeta = GetTrackMetaData(obj.InstanceID.CurrentTrackMetaData.Val);
                 }
-                catch (Exception e) { }
+                catch (Exception e) { e.ToString(); }
                 try
                 {
                     obj.InstanceID.NextTrackMetaData.TrackMeta = GetTrackMetaData(obj.InstanceID.NextTrackMetaData.Val);
                 }
-                catch (Exception e) { }
+                catch (Exception e) { e.ToString(); }
 
                 OnNotificationEvent(obj);
 
