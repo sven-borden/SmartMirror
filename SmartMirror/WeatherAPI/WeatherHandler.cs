@@ -14,6 +14,8 @@ namespace SmartMirror.WeatherAPI
 	public class WeatherHandler : INotifyPropertyChanged
 	{
 		private Data currentWeather = new Data();
+		public static int SunsetTime = 75600;
+		public static int SunriseTime = 25200;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -101,6 +103,10 @@ namespace SmartMirror.WeatherAPI
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
+			int time = (int)DateTime.Now.TimeOfDay.TotalSeconds;
+			bool isDay = false;
+			if (time - WeatherHandler.SunriseTime > 0 && time - WeatherHandler.SunsetTime < 0)
+				isDay = true;
 			int v = (int)value;
 			Debug.WriteLine("Weather id : " + v);
 			string source = "ms-appx:/WeatherIcon/NODATA.png";
@@ -165,23 +171,38 @@ namespace SmartMirror.WeatherAPI
 										{
 											if (v == 800)
 											{
-												source = "ms-appx:/WeatherIcon/800D.png";
+												if (isDay)
+													source = "ms-appx:/WeatherIcon/800D.png";
+												else
+													source = "ms-appx:/WeatherIcon/800N.png";
 											}
 											if (v == 801)
 											{
+												if(isDay)
 												source = "ms-appx:/WeatherIcon/801D.png";
+												else
+													source = "ms-appx:/WeatherIcon/801N.png";
 											}
 											if (v == 802)
 											{
+												if(isDay)
 												source = "ms-appx:/WeatherIcon/802D.png";
+												else
+													source = "ms-appx:/WeatherIcon/802N.png";
 											}
 											if (v == 803)
 											{
+												if(isDay)
 												source = "ms-appx:/WeatherIcon/803D.png";
+												else
+													source = "ms-appx:/WeatherIcon/803N.png";
 											}
 											if (v == 804)
 											{
+												if(isDay)
 												source = "ms-appx:/WeatherIcon/804D.png";
+												else
+													source = "ms-appx:/WeatherIcon/804N.png";
 											}
 										}
 										else
