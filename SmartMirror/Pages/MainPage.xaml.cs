@@ -37,7 +37,13 @@ namespace SmartMirror.Pages
 			this.DataContext = this;
 			SetupClock();
 			SetupSonos();
-			//SetupVoice();
+			SetupHue();
+			SetupVoice();
+		}
+
+		private void SetupHue()
+		{
+			throw new NotImplementedException();
 		}
 
 		private void SetupVoice()

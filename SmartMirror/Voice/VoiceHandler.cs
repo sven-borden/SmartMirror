@@ -56,7 +56,6 @@ namespace SmartMirror.Voice
 			try
 			{
 				// determine the language code being used.
-				string fileName = "";
 				StorageFile grammarContentFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Voice/SRGS/Sonos.xml"));
 				SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
 				// Initialize the SpeechRecognizer and add the grammar.
