@@ -1,4 +1,5 @@
-﻿using SmartMirror.Sonos;
+﻿using SmartMirror.Hue;
+using SmartMirror.Sonos;
 using SmartMirror.Voice;
 using SmartMirror.WeatherAPI;
 using System;
@@ -28,7 +29,7 @@ namespace SmartMirror.Pages
 		public WeatherHandler weather = new WeatherHandler();
 		Music Sonos = null;
 		VoiceHandler Voice = null;
-
+		HueHandler Hue = null;
 
 		public MainPage()
 		{
@@ -43,7 +44,8 @@ namespace SmartMirror.Pages
 
 		private void SetupHue()
 		{
-			throw new NotImplementedException();
+			return;
+			Hue = new HueHandler();	
 		}
 
 		private void SetupVoice()

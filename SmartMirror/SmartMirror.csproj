@@ -96,6 +96,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Hue\Bridge.cs" />
+    <Compile Include="Hue\HsbColor.cs" />
+    <Compile Include="Hue\HueHandler.cs" />
+    <Compile Include="Hue\Light.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -170,7 +174,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Hue\" />
     <Folder Include="News\" />
   </ItemGroup>
   <ItemGroup>
