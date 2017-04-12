@@ -1,4 +1,5 @@
-﻿using SmartMirror.Hue;
+﻿using SmartMirror.CFF;
+using SmartMirror.Hue;
 using SmartMirror.Sonos;
 using SmartMirror.Voice;
 using SmartMirror.WeatherAPI;
@@ -30,6 +31,7 @@ namespace SmartMirror.Pages
 		Music Sonos = null;
 		VoiceHandler Voice = null;
 		HueHandler Hue = null;
+		Handler CFF = null;
 
 		public MainPage()
 		{
@@ -40,6 +42,13 @@ namespace SmartMirror.Pages
 			SetupSonos();
 			SetupHue();
 			SetupVoice();
+			SetupCff();
+		}
+
+		private void SetupCff()
+		{
+			CFF = new Handler();
+
 		}
 
 		private void SetupHue()
@@ -50,11 +59,13 @@ namespace SmartMirror.Pages
 
 		private void SetupVoice()
 		{
+			return;
 			Voice = new VoiceHandler();
 		}
 
 		private void SetupSonos()
 		{
+			return;
 			if (Sonos == null)
 				Sonos = new Music();
 			Sonos.Prepare();			
@@ -62,6 +73,7 @@ namespace SmartMirror.Pages
 
 		private async void SetupWeather()
 		{
+			return;
 			if (weather == null)
 				weather = new WeatherHandler();
 			weather.CurrentWeather.weather.id = 800;

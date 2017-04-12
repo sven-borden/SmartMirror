@@ -96,6 +96,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CFF\Handler.cs" />
+    <Compile Include="CFF\Location.cs" />
     <Compile Include="Hue\Bridge.cs" />
     <Compile Include="Hue\HsbColor.cs" />
     <Compile Include="Hue\HueHandler.cs" />

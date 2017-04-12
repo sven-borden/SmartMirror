@@ -96,9 +96,13 @@ namespace SmartMirror.Voice
 			}
 		}
 
-		private void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
+		private async void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
 		{
-			//BOF quoi faire avec ce truc
+			if (speechRecognizer.State == SpeechRecognizerState.Idle)
+			{
+				await speechRecognizer.ContinuousRecognitionSession.StartAsync();
+				Debug.WriteLine("Starting speech recognition.");
+			}
 		}
 
 		/// <summary>
