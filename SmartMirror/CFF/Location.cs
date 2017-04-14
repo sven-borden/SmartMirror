@@ -20,8 +20,8 @@ namespace SmartMirror.CFF
 		[DataMember(Name = "id")]
 		public string Id { get; set; }
 
-		[DataMember(Name = "type")]
-		public string Type { get; set; }
+		//[DataMember(Name = "type")]
+		//public string Type { get; set; }
 
 		[DataMember(Name = "name")]
 		public string Name { get; set; }
@@ -31,9 +31,6 @@ namespace SmartMirror.CFF
 
 		[DataMember(Name ="coordinate")]
 		public Coordinate Coordinate { get; set; }
-
-		[DataMember(Name = "distance")]
-		public string Distance { get; set; }
 	}
 
 	[DataContract]
@@ -50,31 +47,69 @@ namespace SmartMirror.CFF
 	}
 
 	[DataContract]
+	public class From
+	{
+		[DataMember(Name = "arrival")]
+		public string Arrival { get; set; }
+
+		[DataMember(Name = "arrivalTimestamp")]
+		public string ArrivalTimeStamp { get; set; }
+
+		[DataMember(Name = "departure")]
+		public string Departure { get; set; }
+
+		[DataMember(Name = "departureTimestamp")]
+		public string DepartureTimeStamp { get; set; }
+
+		[DataMember(Name = "platform")]
+		public string Platform { get; set; }
+
+		[DataMember(Name = "prognosis")]
+		public Prognosis Prognosis { get; set; }
+
+		[DataMember(Name = "station")]
+		public Station Station { get; set; }
+	}
+
+	[DataContract]
+	public class To
+	{
+		[DataMember(Name = "arrival")]
+		public string Arrival { get; set; }
+
+		[DataMember(Name = "arrivalTimestamp")]
+		public string ArrivalTimeStamp { get; set; }
+
+		[DataMember(Name = "departure")]
+		public string Departure { get; set; }
+
+		[DataMember(Name = "departureTimestamp")]
+		public string DepartureTimeStamp { get; set; }
+
+		[DataMember(Name = "platform")]
+		public string Platform { get; set; }
+
+		[DataMember(Name = "prognosis")]
+		public Prognosis Prognosis { get; set; }
+
+		[DataMember(Name = "station")]
+		public Station Station { get; set; }
+	}
+
+	public class Connections
+	{
+		[DataMember(Name = "connections")]
+		public Connection[] Connection { get; set; }
+	}
+
+	[DataContract]
 	public class Connection
 	{
 		[DataMember(Name = "from")]
-		public Station From { get; set; }
+		public From From { get; set; }
 
 		[DataMember(Name = "to")]
-		public Station To { get; set; }
-
-		[DataMember(Name = "duration")]
-		public string Duration { get; set; }
-
-		[DataMember(Name = "service")]
-		public Service Service { get; set; }
-
-		[DataMember(Name = "products")]
-		public string[] Products { get; set; }
-
-		[DataMember(Name = "capacity1st")]
-		public int Capacity1st { get; set; }
-
-		[DataMember(Name = "capacity2nd")]
-		public int Capacity2nd { get; set; }
-
-		[DataMember(Name = "sections")]
-		public List<Section> Sections { get; set; }
+		public To To { get; set; }
 	}
 
 	[DataContract]
