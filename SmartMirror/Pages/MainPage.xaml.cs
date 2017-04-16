@@ -47,13 +47,13 @@ namespace SmartMirror.Pages
 
 		private void SetupCff()
 		{
+            return;
 			CFF = new Handler();
 
 		}
 
 		private void SetupHue()
 		{
-			return;
 			Hue = new HueHandler();	
 		}
 
