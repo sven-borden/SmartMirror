@@ -23,8 +23,7 @@ namespace SmartMirror.Voice
 		private async void Setup()
 		{
 			bool permissionGained = await AudioCapturePermissions.RequestMicrophonePermission();
-			await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
-			setupDone = true;
+            setupDone = await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
 			Start();
 		}
 
@@ -42,7 +41,7 @@ namespace SmartMirror.Voice
 			await speechRecognizer.ContinuousRecognitionSession.StopAsync();
 		}
 
-		private async Task InitializeRecognizer(Language recognizerLanguage)
+		private async Task<bool> InitializeRecognizer(Language recognizerLanguage)
 		{
 			if (speechRecognizer != null)
 			{
@@ -78,6 +77,7 @@ namespace SmartMirror.Voice
 					speechRecognizer.ContinuousRecognitionSession.Completed += ContinuousRecognitionSession_Completed;
 					speechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSession_ResultGenerated;
 				}
+                return true;
 			}
 			catch (Exception ex)
 			{
@@ -85,6 +85,7 @@ namespace SmartMirror.Voice
 					Debug.WriteLine("Speech Language pack for selected language not installed.");
 				else
 					Debug.WriteLine(ex.Message);
+                return false;
 			}
 		}
 

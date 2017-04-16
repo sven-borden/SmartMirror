@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HueLibrary;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using static SmartMirror.Hue.Bridge;
 
 namespace SmartMirror.Hue
 {
@@ -30,7 +30,7 @@ namespace SmartMirror.Hue
 		{
 			try
 			{
-				lights = new ObservableCollection<Light>(await bridge.GetLightAsync());
+				lights = new ObservableCollection<Light>(await bridge.GetLightsAsync());
 				if (!lights.Any())
 				{
 					Debug.WriteLine("We couldn't find any lights. Make sure they're in range and connected to a power source.");
@@ -65,7 +65,7 @@ namespace SmartMirror.Hue
 						return;
 				}
 				// Second attempt: Hue N-UPnP service.
-				bridge = await Bridge.FindBridgeAsync();
+				bridge = await Bridge.FindAsync();
 				if (await PrepareBridgeAsync())
 					return;
 			}

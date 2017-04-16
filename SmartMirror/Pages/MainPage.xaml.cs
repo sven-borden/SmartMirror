@@ -54,12 +54,12 @@ namespace SmartMirror.Pages
 
 		private void SetupHue()
 		{
+            return;
 			Hue = new HueHandler();	
 		}
 
 		private void SetupVoice()
 		{
-			return;
 			Voice = new VoiceHandler();
 		}
 
