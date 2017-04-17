@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xml:lang="fr-FR" root="Sonos" tag-format="semantics/1.0" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
 
-	<rule id="Sonoss">
+	<rule id="Sonos">
 		<item>
 			<ruleref special="GARBAGE" />
 		</item>
 		<one-of>
-			<ruleref uri="#Play"/>
-			<ruleref uri="#Stop"/>
+			<item>
+				<ruleref uri="#Play" />
+			</item>
+			<item>
+				<ruleref uri="#Stop" />
+			</item>
 		</one-of>
 	</rule>
 
 	<rule id="Play">
 		<item repeat="0-1">
 			allume
-		</item>
-		<item repeat="0-1">
-			<ruleref special="GARBAGE" />
 		</item>
 		<item>
 			<ruleref uri="#MusiqueRef" />
@@ -28,7 +29,7 @@
 			arrête
 		</item>
 		<item repeat="0-1">
-			<ruleref special="GARBAGE" />
+			stop
 		</item>
 		<item>
 			<ruleref uri="#MusiqueRef" />
