@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Data;
 
 namespace SmartMirror.CFF
 {
@@ -48,6 +49,8 @@ namespace SmartMirror.CFF
 					CurrentConnectionsLausanne.StationBoards.Add(s);
 				else
 					CurrentConnectionsGenf.StationBoards.Add(s);
+			CurrentConnectionsGenf.StationBoards.Reverse();
+			CurrentConnectionsLausanne.StationBoards.Reverse();
 
 			return tmp;
 		}
@@ -64,8 +67,25 @@ namespace SmartMirror.CFF
 		{
 			
 		}
+	}
 
-		public DateTime TimeConverter(string ISO)
+	public class TimeLeftCFF : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, string language)
+		{
+			string time = (string)value;
+			if (time == string.Empty || time == null)
+				return "NA";
+			DateTime t = TimeConverter(time);
+			return t.Subtract(DateTime.Now).Minutes.ToString() + "min";
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		{
+			throw new NotImplementedException();
+		}
+
+		private DateTime TimeConverter(string ISO)
 		{
 			DateTime d = DateTime.Parse(ISO, null, DateTimeStyles.RoundtripKind);
 			return d;

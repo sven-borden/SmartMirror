@@ -70,6 +70,7 @@ namespace SmartMirror.Voice
 				if (compilationResult.Status != SpeechRecognitionResultStatus.Success)
 				{
 					Debug.WriteLine(compilationResult.Status.ToString());
+					return false;
 				}
 				else
 				{
@@ -79,8 +80,8 @@ namespace SmartMirror.Voice
 					// some recognized phrases occur, or the garbage rule is hit.
 					speechRecognizer.ContinuousRecognitionSession.Completed += ContinuousRecognitionSession_Completed;
 					speechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSession_ResultGenerated;
+					return true;
 				}
-                return true;
 			}
 			catch (Exception ex)
 			{

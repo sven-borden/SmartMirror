@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grammar xml:lang="fr-FR" root="Sonos" tag-format="semantics/1.0" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
 
-	<rule id="Sonos">
+	<rule id="Sonoss">
 		<item>
 			<ruleref special="GARBAGE" />
 		</item>
 		<one-of>
 			<ruleref uri="#Play"/>
-			<ruleref uri="#Stop" />
+			<ruleref uri="#Stop"/>
 		</one-of>
 	</rule>
 

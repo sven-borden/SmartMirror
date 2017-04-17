@@ -27,6 +27,7 @@
 		<sound:PlayingConverter x:Key="PlayingConverter" />
 		<sound:TitleConverter x:Key="TitleConverter" />
 		<sound:DurationConverter x:Key="DurationConverter" />
+		<train:TimeLeftCFF x:Key="TimeLeftCFF" />
 	</Page.Resources>
 	
     <Grid Background="Black">
@@ -71,7 +72,7 @@
 			</Grid>
 			
 			<!--CFF-->
-			<Grid Grid.Column="1">
+			<Grid Grid.Column="1" Margin="10">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition Width="Auto" />
@@ -80,7 +81,13 @@
 				<!--Direction Lausanne-->
 				<StackPanel Grid.Column="0" Margin="5">
 					<TextBlock Text="Lausanne" Foreground="White" TextAlignment="Right" FontSize="30"/>
-					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsLausanne.StationBoards}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right">
+					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsLausanne.StationBoards}" >
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+							</Style>
+						</ListView.ItemContainerStyle>
+
 						<ListView.ItemTemplate>
 							<DataTemplate x:DataType="train:StationBoards">
 								<Grid>
@@ -90,8 +97,8 @@
 										<ColumnDefinition Width="Auto"/>
 									</Grid.ColumnDefinitions>
 									<TextBlock Grid.Column="0" />
-									<TextBlock Grid.Column="1" Text="6min" Foreground="White" FontSize="20" />
-									<TextBlock Grid.Column="2" Text="{x:Bind Name, Mode=OneWay}" Foreground="White" FontSize="20" />
+									<TextBlock Grid.Column="1" Margin="5" Text="{x:Bind Stop.Departure,Mode=OneWay,Converter={StaticResource TimeLeftCFF}}" Foreground="White" FontSize="20" />
+									<TextBlock Grid.Column="2" Margin="5" Text="{x:Bind Name, Mode=OneWay}" Foreground="White" FontSize="20" />
 								</Grid>
 							</DataTemplate>
 						</ListView.ItemTemplate>
@@ -109,7 +116,16 @@
 					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsGenf.StationBoards}">
 						<ListView.ItemTemplate>
 							<DataTemplate x:DataType="train:StationBoards">
-								<TextBlock Text="{x:Bind Name, Mode=OneWay}" Foreground="White" FontSize="20" />
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="Auto"/>
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
+									<TextBlock Grid.Column="0" />
+									<TextBlock Grid.Column="1" Margin="5" Text="{x:Bind Name, Mode=OneWay}" Foreground="White" FontSize="20" />
+									<TextBlock Grid.Column="2" Margin="5" Text="{x:Bind Stop.Departure,Mode=OneWay,Converter={StaticResource TimeLeftCFF}}" Foreground="White" FontSize="20" />
+								</Grid>
 							</DataTemplate>
 						</ListView.ItemTemplate>
 					</ListView>

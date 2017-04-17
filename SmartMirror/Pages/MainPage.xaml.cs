@@ -58,7 +58,7 @@ namespace SmartMirror.Pages
 
 		private void SetupVoice()
 		{
-			//Voice = new VoiceHandler(new Otto(Hue,Sonos,weather));
+			Voice = new VoiceHandler(new Otto(Hue,Sonos,weather));
 		}
 
 		private void SetupSonos()
