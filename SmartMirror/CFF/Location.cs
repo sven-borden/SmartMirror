@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -19,9 +20,6 @@ namespace SmartMirror.CFF
 	{
 		[DataMember(Name = "id")]
 		public string Id { get; set; }
-
-		//[DataMember(Name = "type")]
-		//public string Type { get; set; }
 
 		[DataMember(Name = "name")]
 		public string Name { get; set; }
@@ -96,10 +94,11 @@ namespace SmartMirror.CFF
 		public Station Station { get; set; }
 	}
 
+	[DataContract]
 	public class Connections
 	{
 		[DataMember(Name = "connections")]
-		public Connection[] Connection { get; set; }
+		public ObservableCollection<Connection> Connection { get; set; }
 	}
 
 	[DataContract]
@@ -126,7 +125,7 @@ namespace SmartMirror.CFF
 	public class Prognosis
 	{
 		[DataMember(Name = "platform")]
-		public int Platform { get; set; }
+		public string Platform { get; set; }
 
 		[DataMember(Name = "departure")]
 		public string Departure { get; set; }
@@ -135,10 +134,42 @@ namespace SmartMirror.CFF
 		public string Arrival { get; set; }
 
 		[DataMember(Name = "capacity1st")]
-		public int Capacity1st { get; set; }
+		public string Capacity1st { get; set; }
 
 		[DataMember(Name = "capacity2nd")]
-		public int Capacity2nd { get; set; }
+		public string Capacity2nd { get; set; }
+	}
+
+	[DataContract]
+	public class StationBoard
+	{
+		[DataMember(Name = "station")]
+		public Station Station { get; set; }
+
+		[DataMember(Name = "stationboard")]
+		public ObservableCollection<StationBoards> StationBoards { get; set; }
+	}
+
+	[DataContract]
+	public class StationBoards
+	{
+		[DataMember(Name = "stop")]
+		public Stop Stop { get; set; }
+
+		[DataMember(Name = "name")]
+		public string Name { get; set; }
+
+		[DataMember(Name = "category")]
+		public string Category { get; set; }
+
+		[DataMember(Name = "number")]
+		public string Number { get; set; }
+
+		[DataMember(Name = "operator")]
+		public string Operator { get; set; }
+
+		[DataMember(Name = "to")]
+		public string To { get; set; }
 	}
 
 	[DataContract]
@@ -150,14 +181,17 @@ namespace SmartMirror.CFF
 		[DataMember(Name = "arrival")]
 		public string Arrival { get; set; }
 
+		[DataMember(Name = "arrivalTimestamp")]
+		public string ArrivalTimestamp { get; set; }
+
 		[DataMember(Name = "departure")]
 		public string Departure { get; set; }
 
-		[DataMember(Name = "delay")]
-		public int Delay { get; set; }
+		[DataMember(Name = "departureTimestamp")]
+		public string DepartureTimestamp { get; set; }
 
 		[DataMember(Name = "platform")]
-		public int Platform { get; set; }
+		public string Platform { get; set; }
 
 		[DataMember(Name = "prognosis")]
 		public Prognosis Prognosis { get; set; }
@@ -192,10 +226,10 @@ namespace SmartMirror.CFF
 		public string CategoryCode { get; set; }
 
 		[DataMember(Name = "number")]
-		public int Number { get; set; }
+		public string Number { get; set; }
 
 		[DataMember(Name = "operator")]
-		public int Operator { get; set; }
+		public string Operator { get; set; }
 
 		[DataMember(Name = "to")]
 		public string To { get; set; }
@@ -204,9 +238,9 @@ namespace SmartMirror.CFF
 		public string PassList { get; set; }
 
 		[DataMember(Name = "capacity1st")]
-		public int Capacity1st { get; set; }
+		public string Capacity1st { get; set; }
 
 		[DataMember(Name = "capacity2nd")]
-		public int Capacity2nd { get; set; }
+		public string Capacity2nd { get; set; }
 	}
 }

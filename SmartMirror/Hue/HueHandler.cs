@@ -21,7 +21,8 @@ namespace SmartMirror.Hue
 
 		private async void Setup()
 		{
-			await FindBridgeAsync();
+			if (!await FindBridgeAsync())
+				return;
 			await FindLightsAsync();
 			SaveBridgeToCache();
 		}
@@ -50,7 +51,7 @@ namespace SmartMirror.Hue
 
 		}
 
-		private async Task FindBridgeAsync()
+		private async Task<bool> FindBridgeAsync()
 		{
 			try
 			{
@@ -62,17 +63,18 @@ namespace SmartMirror.Hue
 						localStorage["bridgeIp"].ToString(),
 						localStorage["userId"].ToString());
 					if (await PrepareBridgeAsync())
-						return;
+						return true;
 				}
 				// Second attempt: Hue N-UPnP service.
 				bridge = await Bridge.FindAsync();
 				if (await PrepareBridgeAsync())
-					return;
+					return true;
 			}
 			catch (Exception e)
 			{
 				Debug.WriteLine("We encountered an unexpected problem trying to find your bridge: " + e);
 			}
+			return false;
 		}
 
 		private async Task<bool> PrepareBridgeAsync(int attempts = 0)

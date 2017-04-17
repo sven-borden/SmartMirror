@@ -6,18 +6,17 @@
 			<ruleref special="GARBAGE" />
 		</item>
 		<one-of>
-			<item>
-				<ruleref uri="#Play" />
-			</item>
-			<item>
-				<ruleref uri="#Stop" />
-			</item>
+			<ruleref uri="#Play"/>
+			<ruleref uri="#Stop" />
 		</one-of>
 	</rule>
 
 	<rule id="Play">
 		<item repeat="0-1">
 			allume
+		</item>
+		<item repeat="0-1">
+			<ruleref special="GARBAGE" />
 		</item>
 		<item>
 			<ruleref uri="#MusiqueRef" />
@@ -29,7 +28,7 @@
 			arrête
 		</item>
 		<item repeat="0-1">
-			stop
+			<ruleref special="GARBAGE" />
 		</item>
 		<item>
 			<ruleref uri="#MusiqueRef" />

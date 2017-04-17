@@ -15,8 +15,10 @@ namespace SmartMirror.Voice
 	public class VoiceHandler
 	{
 		private bool setupDone = false;
-		public VoiceHandler()
+		Otto Otto;
+		public VoiceHandler(Otto _otto)
 		{
+			Otto = _otto;
 			Setup();
 		}
 
@@ -47,8 +49,8 @@ namespace SmartMirror.Voice
 			{
 				speechRecognizer.ContinuousRecognitionSession.Completed -= ContinuousRecognitionSession_Completed;
 				speechRecognizer.ContinuousRecognitionSession.ResultGenerated -= ContinuousRecognitionSession_ResultGenerated;
-
-				this.speechRecognizer.Dispose();
+                speechRecognizer.StateChanged -= SpeechRecognizer_StateChanged;
+                this.speechRecognizer.Dispose();
 				this.speechRecognizer = null;
 			}
 
@@ -61,7 +63,8 @@ namespace SmartMirror.Voice
 				speechRecognizer = new SpeechRecognizer(new Language("fr-FR"));
 				
 				speechRecognizer.Constraints.Add(grammarConstraint);
-				SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
+                speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
+                SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
 
 				// Check to make sure that the constraints were in a proper format and the recognizer was able to compile them.
 				if (compilationResult.Status != SpeechRecognitionResultStatus.Success)
@@ -93,26 +96,27 @@ namespace SmartMirror.Voice
 		{
 			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||	args.Result.Confidence == SpeechRecognitionConfidence.High)
 			{
-				args.Result.RulePath.ToString();
+				Otto.Request(args.Result);
 			}
-		}
+        }
 
 		private async void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
 		{
 			if (speechRecognizer.State == SpeechRecognizerState.Idle)
 			{
 				await speechRecognizer.ContinuousRecognitionSession.StartAsync();
-				Debug.WriteLine("Starting speech recognition.");
 			}
 		}
 
-		/// <summary>
-		/// the HResult 0x8004503a typically represents the case where a recognizer for a particular language cannot
-		/// be found
-		/// </summary>
-		private static uint HResultRecognizerNotFound = 0x8004503a;
+        private void SpeechRecognizer_StateChanged(SpeechRecognizer sender, SpeechRecognizerStateChangedEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// the HResult 0x8004503a typically represents the case where a recognizer for a particular language cannot
+        /// be found
+        /// </summary>
+        private static uint HResultRecognizerNotFound = 0x8004503a;
 		private SpeechRecognizer speechRecognizer;
-		private ResourceContext speechContext;
-		private ResourceMap speechResourceMap;
 	}
 }

@@ -41,31 +41,28 @@ namespace SmartMirror.Pages
 			SetupClock();
 			SetupSonos();
 			SetupHue();
-			SetupVoice();
 			SetupCff();
+			SetupVoice();
 		}
 
-		private void SetupCff()
+		private async void SetupCff()
 		{
-            return;
 			CFF = new Handler();
-
+			await CFF.GetStationBoard("St-Prex");
 		}
 
 		private void SetupHue()
 		{
-            return;
 			Hue = new HueHandler();	
 		}
 
 		private void SetupVoice()
 		{
-			Voice = new VoiceHandler();
+			//Voice = new VoiceHandler(new Otto(Hue,Sonos,weather));
 		}
 
 		private void SetupSonos()
 		{
-			return;
 			if (Sonos == null)
 				Sonos = new Music();
 			Sonos.Prepare();			
@@ -73,7 +70,6 @@ namespace SmartMirror.Pages
 
 		private async void SetupWeather()
 		{
-			return;
 			if (weather == null)
 				weather = new WeatherHandler();
 			weather.CurrentWeather.weather.id = 800;
@@ -81,7 +77,7 @@ namespace SmartMirror.Pages
 			
 
 			DispatcherTimer WeatherTimer = new DispatcherTimer();
-			WeatherTimer.Interval = new TimeSpan(0, 30, 0);
+			WeatherTimer.Interval = new TimeSpan(0,1, 10);
 			WeatherTimer.Tick +=  async (e, r) =>
 			{
 				await weather.GetWeather();
@@ -94,9 +90,33 @@ namespace SmartMirror.Pages
 			Timer.Tick += (e, r) => 
 			{
 				Clock.Text = DateTime.Now.ToString("HH : mm");
+				Day.Text = ConvertDay(DateTime.Now.DayOfWeek.ToString());
 			};
 			Timer.Interval = new TimeSpan(0, 0, 1);
 			Timer.Start();
+		}
+
+		private string ConvertDay(string Day)
+		{
+			switch(Day)
+			{
+				case "Monday":
+					return "LUNDI";
+				case "Tuesday":
+					return "MARDI";
+				case "Wednesday":
+					return "MERCREDI";
+				case "Thursday":
+					return "JEUDI";
+				case "Friday":
+					return "VENDREDI";
+				case "Saturday":
+					return "SAMEDI";
+				case "Sunday":
+					return "DIMANCHE";
+				default:
+					return "UNKNOWN DAY";
+			}
 		}
 	}
 }
