@@ -1,4 +1,5 @@
 ﻿using SmartMirror.CFF;
+using SmartMirror.Content;
 using SmartMirror.Hue;
 using SmartMirror.Sonos;
 using SmartMirror.Voice;
@@ -27,11 +28,12 @@ namespace SmartMirror.Pages
 	/// </summary>
 	public sealed partial class MainPage : Page
 	{
-		public WeatherHandler weather = new WeatherHandler();
+		public WeatherHandler weather;
 		Music Sonos = null;
 		VoiceHandler Voice = null;
 		HueHandler Hue = null;
 		Handler CFF = null;
+		Message Message = new Message();
 
 		public MainPage()
 		{
@@ -47,31 +49,31 @@ namespace SmartMirror.Pages
 
 		private async void SetupCff()
 		{
-			CFF = new Handler();
+			CFF = new Handler(Message);
 			await CFF.GetStationBoard("St-Prex");
 		}
 
 		private void SetupHue()
 		{
-			Hue = new HueHandler();	
+			Hue = new HueHandler(Message);	
 		}
 
 		private void SetupVoice()
 		{
-			Voice = new VoiceHandler(new Otto(Hue,Sonos,weather));
+			Voice = new VoiceHandler(new Otto(Hue,Sonos,weather, Message));
 		}
 
 		private void SetupSonos()
 		{
 			if (Sonos == null)
-				Sonos = new Music();
+				Sonos = new Music(Message);
 			Sonos.Prepare();			
 		}
 
 		private async void SetupWeather()
 		{
 			if (weather == null)
-				weather = new WeatherHandler();
+				weather = new WeatherHandler(Message);
 			weather.CurrentWeather.weather.id = 800;
 			await weather.GetWeather();
 			

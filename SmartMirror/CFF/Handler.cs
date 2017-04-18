@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SmartMirror.Content;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,9 +22,11 @@ namespace SmartMirror.CFF
 		public StationBoard CurrentConnectionsLausanne { get { return currentConnectionsLausanne; } set { currentConnectionsLausanne = value; } }
 		private StationBoard currentConnectionsGenf = new StationBoard();
 		public StationBoard CurrentConnectionsGenf { get { return currentConnectionsGenf; } set { currentConnectionsGenf = value; } }
+		private Message Message;
 
-		public Handler()
+		public Handler(Message _message)
 		{
+			Message = _message;
 			CurrentConnectionsLausanne.StationBoards = new ObservableCollection<StationBoards>();
 			CurrentConnectionsGenf.StationBoards = new ObservableCollection<StationBoards>();
 		}

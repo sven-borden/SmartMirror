@@ -1,4 +1,5 @@
-﻿using SmartMirror.Hue;
+﻿using SmartMirror.Content;
+using SmartMirror.Hue;
 using SmartMirror.Sonos;
 using SmartMirror.WeatherAPI;
 using System;
@@ -19,12 +20,14 @@ namespace SmartMirror.Voice
 		public HueHandler Hue { get; private set; }
 		public Music Sonos { get; private set; }
 		public WeatherHandler Weather { get; private set; }
+		private Message Message;
 
-		public Otto(HueHandler _hue, Music _sonos, WeatherHandler _weather)
+		public Otto(HueHandler _hue, Music _sonos, WeatherHandler _weather, Message _m)
 		{
 			Hue = _hue;
 			Sonos = _sonos;
 			Weather = _weather;
+			Message = _m;
 		}
 
 		public void Request(SpeechRecognitionResult Rule)

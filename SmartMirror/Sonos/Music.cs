@@ -1,4 +1,5 @@
-﻿using Sonos.Client;
+﻿using SmartMirror.Content;
+using Sonos.Client;
 using Sonos.Client.Models;
 using Sonos.Client.Models.Spotify;
 using System;
@@ -18,6 +19,7 @@ namespace SmartMirror.Sonos
 		DispatcherTimer timer;
 		public string SonosIP { get; set; }
 		SonosClient Sonos = null;
+		Message Message;
 
 		/// <summary>
 		/// Int correcponding to the volume
@@ -64,8 +66,9 @@ namespace SmartMirror.Sonos
 		}
 
 
-		public Music(string _sonosIp = "192.168.1.109")
+		public Music(Message _message, string _sonosIp = "192.168.1.109")
 		{
+			Message = _message;
 			SonosIP = _sonosIp;
 			timer = new DispatcherTimer();
 			timer.Interval = new TimeSpan(0, 0, 5);

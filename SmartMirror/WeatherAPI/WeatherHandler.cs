@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartMirror.Content;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -41,9 +42,10 @@ namespace SmartMirror.WeatherAPI
 
 		}
 
-		public WeatherHandler()
+		private Message Message;
+		public WeatherHandler(Message _M)
 		{
-
+			Message = _M;
 		}
 
 		public async Task<bool> GetWeather()

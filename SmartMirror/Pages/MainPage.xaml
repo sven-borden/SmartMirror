@@ -81,7 +81,7 @@
 				<!--Direction Lausanne-->
 				<StackPanel Grid.Column="0" Margin="5">
 					<TextBlock Text="Lausanne" Foreground="White" TextAlignment="Right" FontSize="30"/>
-					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsLausanne.StationBoards}" >
+					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsLausanne.StationBoards}" SelectionMode="None" >
 						<ListView.ItemContainerStyle>
 							<Style TargetType="ListViewItem">
 								<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -113,7 +113,7 @@
 				<!--Direction Genf-->
 				<StackPanel Grid.Column="2" Margin="5">
 					<TextBlock Text="Genève" Foreground="White" TextAlignment="Left" FontSize="30"/>
-					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsGenf.StationBoards}">
+					<ListView ItemsSource="{x:Bind CFF.CurrentConnectionsGenf.StationBoards}" SelectionMode="None">
 						<ListView.ItemTemplate>
 							<DataTemplate x:DataType="train:StationBoards">
 								<Grid>
@@ -179,9 +179,9 @@
 				</Grid>
 			</Grid>
 
-			
+			<!--¨MESSAGE-->
 			<Grid Grid.Column="1">
-				
+					<TextBlock Foreground="#888888" Text="{x:Bind Message.MessageToShow, Mode=OneWay}" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 			</Grid>
 		</Grid>
     </Grid>

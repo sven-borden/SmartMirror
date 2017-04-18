@@ -1,4 +1,5 @@
 ﻿using HueLibrary;
+using SmartMirror.Content;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,17 +15,24 @@ namespace SmartMirror.Hue
 	{
 		Bridge bridge = null;
 		IEnumerable<Light> lights = null;
-		public HueHandler()
+		Message Message;
+
+		public HueHandler(Message _m)
 		{
+			Message = _m;
 			Setup();
 		}
 
 		private async void Setup()
 		{
 			if (!await FindBridgeAsync())
+			{
+				Message.ShowMessage("Cannot find Hue");
 				return;
+			}
 			await FindLightsAsync();
 			SaveBridgeToCache();
+			Message.ShowMessage("Connected to Hue");
 		}
 
 		private async Task FindLightsAsync()
