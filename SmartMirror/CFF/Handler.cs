@@ -45,14 +45,23 @@ namespace SmartMirror.CFF
 		public async Task<StationBoard> GetStationBoard(string city)
 		{
 			HttpClient http = new HttpClient();
-			string response = await http.GetStringAsync($@"http://transport.opendata.ch/v1/stationboard?station={city}&limit=4");
+			string response = await http.GetStringAsync($@"http://transport.opendata.ch/v1/stationboard?station={city}&limit=6");
 			StationBoard tmp = JsonConvert.DeserializeObject<StationBoard>(response);
+
 			foreach (var s in tmp.StationBoards)
+			{
+				if (s.Name.Contains("NFB"))
+					continue;
 				if (s.To != "Allaman")
 					CurrentConnectionsLausanne.StationBoards.Add(s);
 				else
 					CurrentConnectionsGenf.StationBoards.Add(s);
+			}
+			while (CurrentConnectionsGenf.StationBoards.Count > 2)
+				CurrentConnectionsGenf.StationBoards.RemoveAt(CurrentConnectionsGenf.StationBoards.Count - 1);
 			CurrentConnectionsGenf.StationBoards.Reverse();
+			while (CurrentConnectionsLausanne.StationBoards.Count > 2)
+				CurrentConnectionsLausanne.StationBoards.RemoveAt(CurrentConnectionsLausanne.StationBoards.Count - 1);
 			CurrentConnectionsLausanne.StationBoards.Reverse();
 
 			return tmp;

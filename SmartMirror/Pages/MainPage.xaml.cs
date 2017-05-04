@@ -67,7 +67,8 @@ namespace SmartMirror.Pages
 		{
 			if (Sonos == null)
 				Sonos = new Music(Message);
-			Sonos.Prepare();			
+			Sonos.Prepare();
+            Sonos.Play();
 		}
 
 		private async void SetupWeather()
@@ -84,6 +85,7 @@ namespace SmartMirror.Pages
 			{
 				await weather.GetWeather();
 			};
+			WeatherTimer.Start();
 		}
 
 		private void SetupClock()

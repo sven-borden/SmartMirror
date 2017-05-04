@@ -61,9 +61,62 @@ namespace SmartMirror.Voice
 				SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
 				// Initialize the SpeechRecognizer and add the grammar.
 				speechRecognizer = new SpeechRecognizer(new Language("fr-FR"));
-				
-				speechRecognizer.Constraints.Add(grammarConstraint);
-                speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
+
+				speechRecognizer.Constraints.Add
+				(
+					new SpeechRecognitionListConstraint
+					(
+						new List<string>()
+						{
+							"Allume",
+							"Allume la musique",
+							"Allume le son",
+							"Allume le sonos",
+							"Met de la musique",
+							"Met la musique en marche",
+						},"TurnOnSonos"
+					)
+				);
+				speechRecognizer.Constraints.Add
+				(
+					new SpeechRecognitionListConstraint
+					(
+						new List<string>()
+						{
+							"pause",
+							"Stop",
+							"Eteint la musique",
+							"Stop la musique",
+							"Arrête le son",
+							"Stop le sonos",
+						}, "TurnOffSonos"
+					)
+				);
+				speechRecognizer.Constraints.Add
+				(
+					new SpeechRecognitionListConstraint
+					(
+						new List<string>()
+						{
+							"suivant",
+							"suivante",
+							"après"
+						}, "NextSong"
+					)
+				);
+				speechRecognizer.Constraints.Add
+				(
+					new SpeechRecognitionListConstraint
+					(
+						new List<string>()
+						{
+							"avant",
+							"précédente",
+							"arrière"
+						}, "PreviousSong"
+					)
+				);
+				speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
                 SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
 
 				// Check to make sure that the constraints were in a proper format and the recognizer was able to compile them.
