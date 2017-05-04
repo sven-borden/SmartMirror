@@ -54,7 +54,8 @@ namespace SmartMirror.CFF
 			HttpClient http = new HttpClient();
 			string response = await http.GetStringAsync($@"http://transport.opendata.ch/v1/stationboard?station={city}&limit=6");
 			StationBoard tmp = JsonConvert.DeserializeObject<StationBoard>(response);
-
+			CurrentConnectionsLausanne.StationBoards.Clear();
+			currentConnectionsGenf.StationBoards.Clear();
 			foreach (var s in tmp.StationBoards)
 			{
 				if (s.Name.Contains("NFB"))
