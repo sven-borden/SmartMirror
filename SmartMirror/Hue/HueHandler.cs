@@ -20,6 +20,7 @@ namespace SmartMirror.Hue
 		public HueHandler(Message _m)
 		{
 			Message = _m;
+			Message.ShowMessage("Start to setup Light");
 			Setup();
 		}
 

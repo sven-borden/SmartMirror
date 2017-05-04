@@ -70,6 +70,7 @@ namespace SmartMirror.Sonos
 		{
 			Message = _message;
 			SonosIP = _sonosIp;
+			Message.ShowMessage("Start Music setup");
 			timer = new DispatcherTimer();
 			timer.Interval = new TimeSpan(0, 0, 5);
 			timer.Tick += (e, o) =>
@@ -92,6 +93,7 @@ namespace SmartMirror.Sonos
 				};
 			};
 			t.Start();
+			Message.ShowMessage("Music setup completed");
 		}
 
 		/// <summary>

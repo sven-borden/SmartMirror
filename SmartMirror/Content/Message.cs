@@ -21,6 +21,7 @@ namespace SmartMirror.Content
 					return;
 				}
 				MessageToShow = Queue.First();
+				NMessages = Queue.Count;
 				Queue.RemoveAt(0);
 			};
 			timer.Start();
@@ -32,6 +33,7 @@ namespace SmartMirror.Content
 		public void ShowMessage(string message)
 		{
 			Queue.Add(message);
+			NMessages = Queue.Count;
 		}
 
 		private string message = string.Empty;
@@ -46,6 +48,13 @@ namespace SmartMirror.Content
 				message = value;
 				OnPropertyChange("MessageToShow");
 			}
+		}
+
+		private int nMessages = 0;
+		public int NMessages
+		{
+			get { return nMessages; }
+			set { nMessages = value; OnPropertyChange("NMessages"); }
 		}
 
 		private void OnPropertyChange(string v)

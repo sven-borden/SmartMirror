@@ -51,6 +51,7 @@ namespace SmartMirror.Pages
 		{
 			CFF = new Handler(Message);
 			await CFF.GetStationBoard("St-Prex");
+			Message.ShowMessage("Train Updated");
 		}
 
 		private void SetupHue()
@@ -73,6 +74,7 @@ namespace SmartMirror.Pages
 
 		private async void SetupWeather()
 		{
+			Message.ShowMessage("Start Setup Weather");
 			if (weather == null)
 				weather = new WeatherHandler(Message);
 			weather.CurrentWeather.weather.id = 800;
@@ -86,6 +88,7 @@ namespace SmartMirror.Pages
 				await weather.GetWeather();
 			};
 			WeatherTimer.Start();
+			Message.ShowMessage("Weather setup completed");
 		}
 
 		private void SetupClock()

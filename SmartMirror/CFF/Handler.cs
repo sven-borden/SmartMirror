@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace SmartMirror.CFF
@@ -29,6 +30,12 @@ namespace SmartMirror.CFF
 			Message = _message;
 			CurrentConnectionsLausanne.StationBoards = new ObservableCollection<StationBoards>();
 			CurrentConnectionsGenf.StationBoards = new ObservableCollection<StationBoards>();
+			DispatcherTimer t = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 30) };
+			t.Tick += async (o, e) =>
+			{
+				await GetStationBoard("St-Prex");
+			};
+			t.Start();
 		}
 
 		public async Task<Station> GetStation(string city)
