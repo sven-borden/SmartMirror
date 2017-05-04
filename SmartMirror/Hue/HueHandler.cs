@@ -24,6 +24,20 @@ namespace SmartMirror.Hue
 			Setup();
 		}
 
+		public void TurnOnLights()
+		{
+			foreach (Light l in lights)
+				l.State.On = true;
+			Message.ShowMessage("Turned lights On");
+		}
+
+		public void TurnOffLights()
+		{
+			foreach (Light l in lights)
+				l.State.On = false;
+			Message.ShowMessage("Turned lights Off");
+		}
+
 		private async void Setup()
 		{
 			if (!await FindBridgeAsync())
