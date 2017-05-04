@@ -20,7 +20,7 @@ namespace SmartMirror.Voice
 		public HueHandler Hue { get; private set; }
 		public Music Sonos { get; private set; }
 		public WeatherHandler Weather { get; private set; }
-		private Message Message;
+		public Message Message;
 
 		public Otto(HueHandler _hue, Music _sonos, WeatherHandler _weather, Message _m)
 		{
@@ -30,21 +30,31 @@ namespace SmartMirror.Voice
 			Message = _m;
 		}
 
-		public void Request(SpeechRecognitionResult Rule)
+		public async void Request(SpeechRecognitionResult Rule)
 		{
-			Debug.WriteLine("Request");
-			if (Rule.Confidence == SpeechRecognitionConfidence.Low || Rule.Confidence == SpeechRecognitionConfidence.Rejected)
-				return;
-			foreach (var r in Rule.RulePath)
+			switch(Rule.Constraint.Tag)
 			{
-				switch (r)
-				{
-					case "Sonos":
-						SonosRequest(Rule.SemanticInterpretation.Properties);
-						break;
-				}
+				case "TurnOnSonos":
+					Sonos.Play();
+					break;
+				case "TurnOffSonos":
+					Sonos.Pause();
+					break;
+				case "NextSong":
+					Sonos.Next();
+					break;
+				case "PreviousSong":
+					Sonos.Previous();
+					break;
+				case "SoundUp":
+					int volume = await Sonos.GetVolume();
+					Sonos.SetVolume(volume+10);
+					break;
+				case "SoundDown":
+					int volum = await Sonos.GetVolume();
+					Sonos.SetVolume(volum - 10);
+					break;
 			}
-
 		}
 
 		private void SonosRequest(IReadOnlyDictionary<string, IReadOnlyList<string>> properties)

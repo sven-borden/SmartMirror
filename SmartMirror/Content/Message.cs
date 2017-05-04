@@ -18,6 +18,7 @@ namespace SmartMirror.Content
 				if (Queue.Count == 0)
 				{
 					MessageToShow = string.Empty;
+					NMessages = Queue.Count;
 					return;
 				}
 				MessageToShow = Queue.First();

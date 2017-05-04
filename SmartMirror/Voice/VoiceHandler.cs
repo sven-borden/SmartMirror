@@ -26,6 +26,8 @@ namespace SmartMirror.Voice
 		{
 			bool permissionGained = await AudioCapturePermissions.RequestMicrophonePermission();
             setupDone = await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
+			if (!setupDone)
+				Otto.Message.ShowMessage("Voice Setup Failed");
 			Start();
 		}
 
@@ -45,6 +47,7 @@ namespace SmartMirror.Voice
 
 		private async Task<bool> InitializeRecognizer(Language recognizerLanguage)
 		{
+
 			if (speechRecognizer != null)
 			{
 				speechRecognizer.ContinuousRecognitionSession.Completed -= ContinuousRecognitionSession_Completed;
@@ -57,65 +60,12 @@ namespace SmartMirror.Voice
 			try
 			{
 				// determine the language code being used.
-				StorageFile grammarContentFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Voice/SRGS/Sonos.xml"));
-				SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
+				//StorageFile grammarContentFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Voice/SRGS/Sonos.xml"));
+				//SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
 				// Initialize the SpeechRecognizer and add the grammar.
-				speechRecognizer = new SpeechRecognizer(new Language("fr-FR"));
+				speechRecognizer = new SpeechRecognizer(new Language("en-US"));
 
-				speechRecognizer.Constraints.Add
-				(
-					new SpeechRecognitionListConstraint
-					(
-						new List<string>()
-						{
-							"Allume",
-							"Allume la musique",
-							"Allume le son",
-							"Allume le sonos",
-							"Met de la musique",
-							"Met la musique en marche",
-						},"TurnOnSonos"
-					)
-				);
-				speechRecognizer.Constraints.Add
-				(
-					new SpeechRecognitionListConstraint
-					(
-						new List<string>()
-						{
-							"pause",
-							"Stop",
-							"Eteint la musique",
-							"Stop la musique",
-							"Arrête le son",
-							"Stop le sonos",
-						}, "TurnOffSonos"
-					)
-				);
-				speechRecognizer.Constraints.Add
-				(
-					new SpeechRecognitionListConstraint
-					(
-						new List<string>()
-						{
-							"suivant",
-							"suivante",
-							"après"
-						}, "NextSong"
-					)
-				);
-				speechRecognizer.Constraints.Add
-				(
-					new SpeechRecognitionListConstraint
-					(
-						new List<string>()
-						{
-							"avant",
-							"précédente",
-							"arrière"
-						}, "PreviousSong"
-					)
-				);
+				AddFrenchConstraint();
 				speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
                 SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
 
@@ -146,9 +96,220 @@ namespace SmartMirror.Voice
 			}
 		}
 
+		private void AddEnglishConstraint()
+		{
+			speechRecognizer.Constraints.Add
+				(
+					new SpeechRecognitionListConstraint
+					(
+						new List<string>()
+						{
+							"Turn on the music",
+							"Turn on the sound",
+							"music",
+							"Play"
+						}, "TurnOnSonos"
+					)
+				);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Pause",
+							"Stop",
+							"Pause the music",
+							"Stop the music",
+							"Turn off the music",
+							"Shut down the sound"
+					}, "TurnOffSonos"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Next",
+							"Next song",
+							"Next one",
+							"Play the next song",
+							"Play the next music"
+					}, "NextSong"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Previous",
+							"Previous song",
+							"Play the previous song",
+							"Before"
+					}, "PreviousSong"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Set the volume up",
+							"Volume up",
+					}, "SoundUp"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Set the volume down",
+							"Volume down",
+					}, "SoundDown"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Turn on the lights",
+							"Lights on",
+					}, "TurnOnLight"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Turn off the lights",
+							"Lights off",
+					}, "TurnOffLight"
+				)
+			);
+		}
+
+		private void AddFrenchConstraint()
+		{
+			speechRecognizer.Constraints.Add
+				(
+					new SpeechRecognitionListConstraint
+					(
+						new List<string>()
+						{
+							"Allume",
+							"Allume la musique",
+							"Allume le son",
+							"Allume le sonos",
+							"Met de la musique",
+							"Met la musique en marche",
+						}, "TurnOnSonos"
+					)
+				);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"pause",
+							"Stop",
+							"Eteint la musique",
+							"Stop la musique",
+							"Arrête le son",
+							"Stop le sonos",
+					}, "TurnOffSonos"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"suivant",
+							"suivante",
+							"après"
+					}, "NextSong"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"avant",
+							"précédente",
+							"arrière"
+					}, "PreviousSong"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Met plus fort",
+							"Monte le son",
+							"Met la musique plus fort"
+					}, "SoundUp"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Met moins fort",
+							"Descend le son",
+							"Met la musique moins fort",
+							"Diminue la musique",
+							"Plus doucement"
+					}, "SoundDown"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Allume la lumière",
+							"Allume ma chambre",
+							"Allume la chambre"
+					}, "TurnOnLight"
+				)
+			);
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
+							"Eteint la lumière",
+							"Eteint ma chambre",
+							"Eteint la chambre"
+					}, "TurnOffLight"
+				)
+			);
+		}
+
 		private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
 		{
-			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||	args.Result.Confidence == SpeechRecognitionConfidence.High)
+			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||	args.Result.Confidence == SpeechRecognitionConfidence.High || args.Result.Confidence == SpeechRecognitionConfidence.Low)
 			{
 				Otto.Request(args.Result);
 			}

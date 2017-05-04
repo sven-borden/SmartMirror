@@ -183,8 +183,10 @@ namespace SmartMirror.Sonos
 		/// Start to play
 		/// </summary>
 		public async void Play()
-		{ 
-				await Sonos.Play();
+		{
+			if (await Sonos.Play())
+				return;
+			Message.ShowMessage("Failed to Play");
 		}
 
 		/// <summary>
@@ -192,7 +194,9 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public async void Pause()
 		{
-			await Sonos.Pause();
+			if (await Sonos.Pause())
+				return;
+			Message.ShowMessage("Failed to Pause");
 		}
 
 		/// <summary>
@@ -200,7 +204,9 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public async void Next()
 		{
-			await Sonos.Next();
+			if (await Sonos.Next())
+				return;
+			Message.ShowMessage("Failed to play next song");
 		}
 
 		/// <summary>
@@ -208,7 +214,9 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public async void Previous()
 		{
-			await Sonos.Previous();
+			if (await Sonos.Previous())
+				return;
+			Message.ShowMessage("Failed to play previous song");
 		}
 
 		/// <summary>
@@ -217,7 +225,9 @@ namespace SmartMirror.Sonos
 		/// <param name="volume"></param>
 		public async void SetVolume(int volume)
 		{
-			await Sonos.SetVolume(volume);
+			if (await Sonos.SetVolume(volume))
+				return;
+			Message.ShowMessage("Failed to Set Volume");
 		}
 
 		/// <summary>
