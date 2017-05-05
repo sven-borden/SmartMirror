@@ -65,7 +65,7 @@ namespace SmartMirror.Voice
 				// Initialize the SpeechRecognizer and add the grammar.
 				speechRecognizer = new SpeechRecognizer(new Language("en-US"));
 
-				AddFrenchConstraint();
+				AddEnglishConstraint();
 				speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
                 SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
 
@@ -78,7 +78,7 @@ namespace SmartMirror.Voice
 				else
 				{
 					// Set EndSilenceTimeout to give users more time to complete speaking a phrase.
-					speechRecognizer.Timeouts.EndSilenceTimeout = TimeSpan.FromSeconds(1.2);
+					speechRecognizer.Timeouts.EndSilenceTimeout = TimeSpan.FromSeconds(0.8);
 					// Handle continuous recognition events. Completed fires when various error states occur. ResultGenerated fires when
 					// some recognized phrases occur, or the garbage rule is hit.
 					speechRecognizer.ContinuousRecognitionSession.Completed += ContinuousRecognitionSession_Completed;
@@ -161,6 +161,7 @@ namespace SmartMirror.Voice
 					{
 							"Set the volume up",
 							"Volume up",
+							"Louder"
 					}, "SoundUp"
 				)
 			);
@@ -309,7 +310,7 @@ namespace SmartMirror.Voice
 
 		private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
 		{
-			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||	args.Result.Confidence == SpeechRecognitionConfidence.High || args.Result.Confidence == SpeechRecognitionConfidence.Low)
+			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||	args.Result.Confidence == SpeechRecognitionConfidence.High)
 			{
 				Otto.Request(args.Result);
 			}
