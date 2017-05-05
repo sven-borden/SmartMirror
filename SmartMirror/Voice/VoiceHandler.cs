@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
-using Windows.Storage;
 
 namespace SmartMirror.Voice
 {

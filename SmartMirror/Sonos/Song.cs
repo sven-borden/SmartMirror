@@ -9,11 +9,18 @@ namespace SmartMirror.Sonos
 {
 	public class Song : INotifyPropertyChanged
 	{
-		public string Title { get; set; }
-		public string Creator { get; set; }
-		public string Album { get; set; }
+		private string title = string.Empty;
+		public string Title { get { return title; } set { title = value; OnPropertyChanged(nameof(Title)); } }
+
+		private string creator = string.Empty;
+		public string Creator { get { return creator; } set { creator = value; OnPropertyChanged(nameof(creator)); } }
+
+		private string album = string.Empty;
+		public string Album { get { return album; } set { album = value; OnPropertyChanged(nameof(album)); } }
+
 		public int Duration { get; set; }
 		public int Remaining { get; set; }
+		public bool IsRadio { get; set; }
 		private int realTime;
 
 		public event PropertyChangedEventHandler PropertyChanged;

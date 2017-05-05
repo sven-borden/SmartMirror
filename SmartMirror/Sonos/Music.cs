@@ -26,6 +26,9 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public int Volume { get; set; }
 
+		/// <summary>
+		/// Representing the state of the Sonos
+		/// </summary>
 		private bool _IsPlaying = false;
 		public bool IsPlaying
 		{
@@ -40,6 +43,9 @@ namespace SmartMirror.Sonos
 			}
 		}
 
+		/// <summary>
+		/// Track information about the song that is currently playing
+		/// </summary>
 		private Song currentSong = new Song();
 		public Song CurrentSong
 		{
@@ -125,15 +131,18 @@ namespace SmartMirror.Sonos
 			string _title = string.Empty;
 			string _album = string.Empty;
 			string _creator = string.Empty;
+			bool isRadio = false;
 			if (!trackMetaData.Contains("albumArtURI"))//Radio
 			{
 				_title = trackMetaData.Split(new string[] { "<r:streamContent>", "</r:streamContent>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+				isRadio = true;
 			}
 			else
 			{
 				_title = trackMetaData.Split(new string[] { "<dc:title>", "</dc:title>" }, StringSplitOptions.RemoveEmptyEntries)[1];
 				_album = trackMetaData.Split(new string[] { "<album>", "</album>" }, StringSplitOptions.RemoveEmptyEntries)[1];
 				_creator = trackMetaData.Split(new string[] { "<dc:creator>", "</dc:creator>" }, StringSplitOptions.RemoveEmptyEntries)[1];
+				isRadio = false;
 			}
 
 			CurrentSong = new Song()
@@ -142,7 +151,8 @@ namespace SmartMirror.Sonos
 				Album = _album,Creator = _creator,
 				Duration = ConvertToSecond(_duration),
 				RealTime = ConvertToSecond(_reltime),
-				Remaining = ConvertToSecond(_duration) - ConvertToSecond(_reltime)
+				Remaining = ConvertToSecond(_duration) - ConvertToSecond(_reltime),
+				IsRadio = isRadio,
 			};
 		}
 
@@ -204,6 +214,11 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public async void Next()
 		{
+			if(CurrentSong.IsRadio)
+			{
+				Message.ShowMessage("Cannot play next song, is from radio");
+				return;
+			}
 			if (await Sonos.Next())
 				return;
 			Message.ShowMessage("Failed to play next song");
@@ -214,6 +229,11 @@ namespace SmartMirror.Sonos
 		/// </summary>
 		public async void Previous()
 		{
+			if(currentSong.IsRadio)
+			{
+				Message.ShowMessage("Cannot play previous song, is from radio");
+				return;
+			}
 			if (await Sonos.Previous())
 				return;
 			Message.ShowMessage("Failed to play previous song");

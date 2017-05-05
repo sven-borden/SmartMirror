@@ -2,12 +2,6 @@
 using SmartMirror.Hue;
 using SmartMirror.Sonos;
 using SmartMirror.WeatherAPI;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Media.SpeechRecognition;
 
 namespace SmartMirror.Voice
@@ -35,31 +29,36 @@ namespace SmartMirror.Voice
 			switch(Rule.Constraint.Tag)
 			{
 				case "TurnOnSonos":
+					Message.ShowMessage("Play Sonos");
 					Sonos.Play();
 					break;
 				case "TurnOffSonos":
 					Sonos.Pause();
+					Message.ShowMessage("Pause Sonos");
 					break;
 				case "NextSong":
 					Sonos.Next();
+					Message.ShowMessage("Next song");
 					break;
 				case "PreviousSong":
 					Sonos.Previous();
+					Message.ShowMessage("Previous song");
 					break;
 				case "SoundUp":
-					int volume = await Sonos.GetVolume();
-					Sonos.SetVolume(volume+10);
+					int volume = await Sonos.GetVolume() + 10;
+					if (volume > 100)
+						volume = 100;
+					Sonos.SetVolume(volume);
+					Message.ShowMessage($"Volume at {volume}");
 					break;
 				case "SoundDown":
-					int volum = await Sonos.GetVolume();
-					Sonos.SetVolume(volum - 10);
+					int volum = await Sonos.GetVolume() - 10;
+					if (volum < 0)
+						volum = 0;
+					Sonos.SetVolume(volum);
+					Message.ShowMessage($"Volume at {volum}");
 					break;
 			}
-		}
-
-		private void SonosRequest(IReadOnlyDictionary<string, IReadOnlyList<string>> properties)
-		{
-			
 		}
 	}
 }
