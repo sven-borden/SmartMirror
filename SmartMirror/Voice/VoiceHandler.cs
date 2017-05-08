@@ -23,6 +23,8 @@ namespace SmartMirror.Voice
             setupDone = await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
 			if (!setupDone)
 				Otto.Message.ShowMessage("Voice Setup Failed");
+			else
+				Otto.Message.ShowMessage("Voice Setup Completed");
 			Start();
 		}
 
@@ -58,9 +60,9 @@ namespace SmartMirror.Voice
 				//StorageFile grammarContentFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Voice/SRGS/Sonos.xml"));
 				//SpeechRecognitionGrammarFileConstraint grammarConstraint = new SpeechRecognitionGrammarFileConstraint(grammarContentFile);
 				// Initialize the SpeechRecognizer and add the grammar.
-				speechRecognizer = new SpeechRecognizer(new Language("en-US"));
+				speechRecognizer = new SpeechRecognizer(new Language("fr-FR"));
 
-				AddEnglishConstraint();
+				AddFrenchConstraint();
 				speechRecognizer.StateChanged += SpeechRecognizer_StateChanged;
                 SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
 
@@ -87,6 +89,7 @@ namespace SmartMirror.Voice
 					Debug.WriteLine("Speech Language pack for selected language not installed.");
 				else
 					Debug.WriteLine(ex.Message);
+				Otto.Message.ShowMessage("VOICE : " + ex.Message);
                 return false;
 			}
 		}
@@ -269,6 +272,17 @@ namespace SmartMirror.Voice
 				(
 					new List<string>()
 					{
+							"Tout casser",
+					}, "Fort"
+				)
+			);
+
+			speechRecognizer.Constraints.Add
+			(
+				new SpeechRecognitionListConstraint
+				(
+					new List<string>()
+					{
 							"Met moins fort",
 							"Descend le son",
 							"Met la musique moins fort",
@@ -305,9 +319,16 @@ namespace SmartMirror.Voice
 
 		private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
 		{
-			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||	args.Result.Confidence == SpeechRecognitionConfidence.High)
+			try
 			{
-				Otto.Request(args.Result);
+				if (args.Result.Confidence == SpeechRecognitionConfidence.Medium || args.Result.Confidence == SpeechRecognitionConfidence.High)
+				{
+					Otto.Request(args.Result);
+				}
+			}
+			catch(Exception e)
+			{
+				Otto.Message.ShowMessage("VOICE : " + e.Message);
 			}
         }
 

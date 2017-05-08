@@ -47,6 +47,7 @@ namespace SmartMirror.Hue
 			await FindLightsAsync();
 			SaveBridgeToCache();
 			Message.ShowMessage("Connected to Hue");
+			TurnOffLights();
 		}
 
 		private async Task FindLightsAsync()

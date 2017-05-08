@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>SmartMirror_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>46EA74FF3F99767B3286E3E1FFE96FEA79E6585B</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">

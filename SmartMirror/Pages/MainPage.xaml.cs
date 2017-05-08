@@ -52,7 +52,7 @@ namespace SmartMirror.Pages
 
 		private void SetupHue()
 		{
-			Hue = new HueHandler(Message);	
+			Hue = new HueHandler(Message);
 		}
 
 		private void SetupVoice()
