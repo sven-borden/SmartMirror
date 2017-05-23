@@ -21,10 +21,10 @@ namespace SmartMirror.Pages
 	public sealed partial class MainPage : Page
 	{
 		public WeatherHandler weather;
-		Music Sonos = null;
-		VoiceHandler Voice = null;
-		HueHandler Hue = null;
-		Handler CFF = null;
+		Music Sonos;
+		VoiceHandler Voice;
+		HueHandler Hue;
+		Handler CFF;
 		Message Message = new Message();
 
 		public MainPage()
