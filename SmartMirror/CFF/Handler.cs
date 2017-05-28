@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SmartMirror.Content;
+using SmartMirror.Network;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
