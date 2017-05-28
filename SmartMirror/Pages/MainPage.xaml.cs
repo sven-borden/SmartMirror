@@ -1,6 +1,7 @@
 ﻿using SmartMirror.CFF;
 using SmartMirror.Content;
 using SmartMirror.Hue;
+using SmartMirror.Network;
 using SmartMirror.Sonos;
 using SmartMirror.Voice;
 using SmartMirror.WeatherAPI;
@@ -29,10 +30,17 @@ namespace SmartMirror.Pages
 
 		public MainPage()
 		{
-			SetupWeather();
 			this.InitializeComponent();
 			this.DataContext = this;
 			SetupClock();
+			SetupWithConnection();
+		}
+
+		private async void SetupWithConnection()
+		{
+			if (!Internet.IsConnected())
+				await Internet.WaitForConnection();
+			SetupWeather();
 			SetupSonos();
 			SetupHue();
 			SetupCff();
